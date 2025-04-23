@@ -1,0 +1,54 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  body {
+    overflow-y: auto;
+  }
+
+  header {
+    height: 10vh;
+    min-height: 70px;
+  }
+
+  #logoSite {
+    height: 100%;
+    object-fit: contain;
+  }
+
+  nav {
+    overflow-y: auto;
+  }
+
+  main {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  /* Fixe nav en hauteur uniquement sur écran large */
+@media (min-width: 576px) {
+  body {
+    overflow: hidden; /* on bloque le scroll global */
+  }
+
+  .row {
+    /* height: calc(100vh - 10vh); */
+    overflow: hidden;
+  }
+
+  nav {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  main {
+    height: 100%;
+    overflow-y: auto;
+  }
+}

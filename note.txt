@@ -1,0 +1,68 @@
+======================================
+                user.js
+======================================
+
+✅ read user  => read(email)
+✅ readall user => readall()
+✅ create user => create(email, password, nom, prenom, tel, date_creation, statut_compte, role_utilisateur)
+✅ delete user => delete(email)
+✅ modifier mdp utilisateur => modifiedMdp(email, password)
+✅ modifier info utilisateur (nom, prenomn, tel) => modifiedInfo(email, nom, prenom, tel)
+✅ modifier statut compte utilisateur => modifiedStatut(email, statut_compte)
+✅ modifier organisation utilisateur => modifiedOrganisation(email, organisation)
+✅ tester validité mdp email => areValide(email, password)
+✅ readadmin => readadmin()
+✅ readutilisateur => readutilisateur()
+✅ readrecruteur => readrecruteur()
+
+===========================================
+                organisation.js
+===========================================
+
+✅ read => read(siren)
+✅ readall => readall()
+✅ create => create(siren, nom, type_entreprise, siege_social)
+✅ delete => delete(siren)
+✅ modifier nom => modifiedName(siren, nom)
+✅ modifier siege social => modifiedSiege(siren, siege_social)
+
+===========================================
+                poste.js
+===========================================
+
+✅ readAll => readall()
+✅ read => read(id)
+✅ createFicheDePoste => createFicheDePoste(siren, intitule, statut_poste, responsable, rythme, salaire, description, lieu, typeMetier)
+✅ creer une offre d'emploi en lien avec une fiche de poste => createOffre(numero_fiche, etat, date_fin, piece_demande, nbr_piece, recruteur)
+✅ supprimer une offre => deleteOffre(id)
+✅ lire les postes filtré avec la date de fin => readSortDate(date)
+✅ filtré avec le nom de l'entreprise => readSortOrganisation(siren)
+✅ filtré avec la ville => readSortCity(ville)
+✅ filtré avec type de metier => readSortJobType(typeMetier)
+✅ filtré avec salaire (min max) => readSortSalaire(salaire_min, salaire_max)
+
+
+page user:
+=> ajouter siege social et info orgnaisation dans les offres ???
+
+
+Page profil user 
+=> creation organisation 
+=> demande statut recruteur
+=> demande status admin
+=> modification profil
+=> liste des candidature 
+
+Page candidature 
+=> creer la page 
+=> upload fichiers
+=> description poste + organisation
+
+faire la page recruteur
+=> creation offre
+=> lister les offres dont le recruteur est propriétaire
+=> telecharger les documents de l'utilisateur (dans un fichier zip ?)
+=> supprimer offres 
+
+Page admin : 
+

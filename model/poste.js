@@ -1,0 +1,130 @@
+var db = require('./db.js');
+var user = require('./user.js');
+var organisation = require('./organisation.js');
+
+module.exports = {
+    // permet de lire toutes les offres d'emploi
+    // chaque offre est reliée à une organisation par le SIREN
+    // et à une fiche de poste par le numero_fiche
+    readAll: function (callback) {
+        db.query('SELECT * FROM OFFRE INNER JOIN FICHEDEPOSTE ON OFFRE.numero_fiche = FICHEDEPOSTE.numero_fiche INNER JOIN ORGANISATION ON FICHEDEPOSTE.siren_organisation = ORGANISATION.siren', [], function (err, results) {
+            if (err) {
+                return callback([]);
+            }
+            return callback(results);
+        });
+    },
+    // permet de lire une offre d'emploi en utilisant son numero_offre
+    // elle est reliée à une organisation par le SIREN
+    // et à une fiche de poste par le numero_fiche
+    read: function (id, callback) {
+        db.query('SELECT * FROM OFFRE INNER JOIN FICHEDEPOSTE ON OFFRE.numero_fiche = FICHEDEPOSTE.numero_fiche INNER JOIN ORGANISATION ON FICHEDEPOSTE.siren_organisation = ORGANISATION.siren WHERE numero_offre = ?', [id], function (err, results) {
+            if (err) {
+                return callback(err);
+            }
+            if (results.length === 0) {
+                return callback(null, null);
+            }
+            return callback(results[0]);
+        });
+    },
+    // permet de créer une fiche de poste
+    // elle est reliée à une organisation par le SIREN
+    createFicheDePoste: function (siren, intitule, statut_poste, responsable, rythme, salaire, description, lieu, typeMetier, callback) {
+        db.query('INSERT INTO FICHEDEPOSTE (siren_organisation, intitule, statut_poste, responsable, rythme, salaire, description, lieu, typeMetier) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [siren, intitule, statut_poste, responsable, rythme, salaire, description, lieu, typeMetier], function (err) {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+    // permet de créer une offre d'emploi
+    // elle est reliée a une fiche de poste par le numero_fiche
+    // le recruteur est le mail de l'utilisateur qui a créé l'offre (a recuperer pendant la création de l'offre)
+    // etat est dans le format 'publié', 'en cours', 'expiré'
+    createOffre: function (numero_fiche, etat, date_fin, piece_demande, nbr_piece, recruteur, callback) {
+        db.query('INSERT INTO OFFRE (numero_fiche, etat, date_validite, piece_demande, nombre_piece_demande, recruteur) VALUES (?, ?, ?, ?, ?, ?)', [numero_fiche, etat, date_fin, piece_demande, nbr_piece, recruteur], function (err) {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+    // permet de supprimer une offre d'emploi
+    deleteOffre: function (id, callback) {
+        db.query('DELETE FROM OFFRE WHERE numero_offre = ?', [id], function (err) {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+    // readSortCity: function (ville, callback) {
+    //     const pattern = `%${ville}%`;
+    //     db.query('SELECT * FROM OFFRE INNER JOIN FICHEDEPOSTE ON OFFRE.numero_fiche = FICHEDEPOSTE.numero_fiche INNER JOIN ORGANISATION ON FICHEDEPOSTE.siren_organisation = ORGANISATION.siren WHERE FICHEDEPOSTE.lieu LIKE ?', [pattern], function (err, results) {
+    //         if (err) {
+    //             return callback(err);
+    //         }
+    //         return callback(null, results);
+    //     });
+    // },
+   //permet de filtrer les offres
+   filter: function(filters, callback) {
+        let sql = `
+            SELECT * 
+            FROM OFFRE 
+            INNER JOIN FICHEDEPOSTE ON OFFRE.numero_fiche = FICHEDEPOSTE.numero_fiche 
+            INNER JOIN ORGANISATION ON FICHEDEPOSTE.siren_organisation = ORGANISATION.siren 
+            WHERE 1=1
+        `;
+        const params = [];
+
+        if (filters.date) {
+            console.log("date :",filters.date);
+            sql += " AND date_validite <= ?";
+            params.push(filters.date);
+        }
+
+        if (filters.location) {
+            console.log("location :", filters.location);
+            sql += " AND FICHEDEPOSTE.lieu LIKE ?";
+            params.push(`%${filters.location.toLowerCase()}%`);
+        }
+
+        if (filters.intitule) {
+            console.log("intitule :", filters.intitule);
+            sql += " AND FICHEDEPOSTE.intitule LIKE ?";
+            params.push(`%${filters.intitule.toLowerCase()}%`);
+        }
+
+        if (filters.jobType) {
+            console.log("jobType :",filters.jobType);
+            sql += " AND FICHEDEPOSTE.typeMetier LIKE ?";
+            params.push(`%${filters.jobType.toLowerCase()}%`);
+        }
+
+        if (filters.company) {
+            console.log("company : ", filters.company);
+            sql += " AND ORGANISATION.siren = ?";
+            params.push(filters.company);
+        }
+
+        if (filters.salaireMin && !isNaN(filters.salaireMin)) {
+            console.log("salaireMin :", filters.salaireMin);
+            sql += " AND FICHEDEPOSTE.salaire >= ?";
+            params.push(parseInt(filters.salaireMin));
+        }
+
+        if (filters.salaireMax && !isNaN(filters.salaireMax) && filters.salaireMax > 0) {
+            console.log("salaireMax :", filters.salaireMax);
+            sql += " AND FICHEDEPOSTE.salaire <= ?";
+            params.push(parseInt(filters.salaireMax));
+        }
+
+        db.query(sql, params, function (err, results) {
+            if (err) return callback(err);
+            return callback(null, results);
+        });
+}
+
+};
