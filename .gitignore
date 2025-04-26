@@ -1,1 +1,3 @@
 node_modules
+testConnection.js
+model/db.js
