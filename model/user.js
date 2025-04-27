@@ -146,4 +146,76 @@ module.exports = {
             // }
         }
     },
+    createUser: function (email, nom, prenom, tel, mdp,  callback) {
+        // sql = "CREATE TABLE UTILISATEUR ( email varchar(50) NOT NULL, mdp varchar(255) NOT NULL,  nom varchar(20) NOT NULL, prenom varchar(20) NOT NULL,   tel varchar(20) NOT NULL,            date_creation date NOT NULL,   statut_compte enum('actif', 'inactif') NOT NULL, organisation int(11) DEFAULT NULL, role_utilisateur enum('utilisateur', 'recruteur', 'admin') NOT NULL);";
+
+        // let date_creation = new Date(Date.now()).toUTCString();
+        let date_creation = new Date(Date.now());
+        
+        let role_utilisateur = "utilisateur";
+        let statut_compte = "actif"; //doit être validé (=actif) par admin TODO:mettre demande_ser ou demande_admin
+
+
+        sql = `INSERT INTO UTILISATEUR ( 
+        email , 
+        mdp ,  
+        nom , 
+        prenom ,
+        tel ,
+        date_creation ,
+        statut_compte ,
+        
+        role_utilisateur 
+        ) 
+        VALUES ( ?,?,?,?,?,?,?,?);`
+
+        
+
+        db.query(sql, [
+            email,
+            mdp,
+            nom,
+            prenom,
+            tel,
+            date_creation,
+            statut_compte,
+            role_utilisateur
+
+        ],
+            function (err, results) {
+                if (err) {
+                    // throw err;
+                    console.log(err)
+                    callback(false)
+                }
+                else 
+                    callback(true);
+            }
+        );
+    }, 
+    
+    createTable: function (callback) {
+
+        sql = `CREATE TABLE UTILISATEUR ( 
+            email varchar(50) NOT NULL, 
+            mdp varchar(255) NOT NULL,  
+            nom varchar(20) NOT NULL, 
+            prenom varchar(20) NOT NULL,
+            tel varchar(20) NOT NULL,
+            date_creation date NOT NULL,
+            statut_compte enum('actif', 'inactif') NOT NULL,
+            organisation int(11) DEFAULT NULL,
+            role_utilisateur enum('utilisateur', 'recruteur', 'admin') NOT NULL
+            );`
+
+        db.query(sql,
+            function (err, results) {
+                if (err) throw err;
+                callback(true);
+
+            }
+        
+        );
+
+    }
 }
