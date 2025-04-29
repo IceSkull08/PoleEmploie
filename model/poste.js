@@ -11,7 +11,7 @@ module.exports = {
             if (err) {
                 return callback([]);
             }
-            return callback(results);
+            return callback(null, results);
         });
     },
     // permet de lire une offre d'emploi en utilisant son numero_offre
@@ -25,7 +25,7 @@ module.exports = {
             if (results.length === 0) {
                 return callback(null, null);
             }
-            return callback(results[0]);
+            return callback(null, results[0]);
         });
     },
     // permet de créer une fiche de poste
