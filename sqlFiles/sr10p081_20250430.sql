@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mer. 30 avr. 2025 à 08:18
+-- Généré le : mer. 30 avr. 2025 à 09:14
 -- Version du serveur : 10.11.6-MariaDB-0+deb12u1
 -- Version de PHP : 8.2.24
 
@@ -50,7 +50,7 @@ INSERT INTO `CANDIDATURE` (`numero_candidature`, `email`, `numero_offre`) VALUES
 
 CREATE TABLE `FICHEDEPOSTE` (
   `numero_fiche` int(11) NOT NULL,
-  `siren_organisation` int(9) NOT NULL,
+  `siren_organisation` varchar(9) NOT NULL,
   `intitule` varchar(255) NOT NULL,
   `statut_poste` varchar(20) NOT NULL,
   `responsable` varchar(50) DEFAULT NULL,
@@ -66,9 +66,9 @@ CREATE TABLE `FICHEDEPOSTE` (
 --
 
 INSERT INTO `FICHEDEPOSTE` (`numero_fiche`, `siren_organisation`, `intitule`, `statut_poste`, `responsable`, `rythme`, `salaire`, `description`, `lieu`, `TypeMetier`) VALUES
-(1, 123456789, 'Développeur Full Stack', 'Cadre', 'Jean Dupont', 'temps plein', 45000, 'Développement d\'applications web et mobile.', 'Paris', NULL),
-(2, 987654321, 'Chef de Cuisine', 'Cadre', 'Marie Lefevre', 'temps partiel', 25000, 'Responsable de la cuisine dans un restaurant gastronomique.', 'Paris', NULL),
-(3, 112233445, 'Chargé de Mission Environnement', 'ETAM', 'Lucas Martin', 'temps plein', 40000, 'Gestion des projets environnementaux et développement durable.', 'Compiegne', NULL);
+(1, '123456789', 'Développeur Full Stack', 'Cadre', 'Jean Dupont', 'temps plein', 45000, 'Développement d\'applications web et mobile.', 'Paris', NULL),
+(2, '987654321', 'Chef de Cuisine', 'Cadre', 'Marie Lefevre', 'temps partiel', 25000, 'Responsable de la cuisine dans un restaurant gastronomique.', 'Paris', NULL),
+(3, '112233445', 'Chargé de Mission Environnement', 'ETAM', 'Lucas Martin', 'temps plein', 40000, 'Gestion des projets environnementaux et développement durable.', 'Compiegne', NULL);
 
 -- --------------------------------------------------------
 
@@ -103,7 +103,7 @@ INSERT INTO `OFFRE` (`numero_offre`, `numero_fiche`, `etat`, `date_validite`, `p
 --
 
 CREATE TABLE `ORGANISATION` (
-  `siren` int(9) NOT NULL,
+  `siren` varchar(9) NOT NULL,
   `nom` varchar(100) NOT NULL,
   `type_entreprise` varchar(50) NOT NULL,
   `siege_social` varchar(100) NOT NULL
@@ -114,10 +114,11 @@ CREATE TABLE `ORGANISATION` (
 --
 
 INSERT INTO `ORGANISATION` (`siren`, `nom`, `type_entreprise`, `siege_social`) VALUES
-(112233445, 'EcoSolutions', 'Environnement', '8 Rue des Écologistes, Marseille'),
-(112345678, 'Nouvelle Organisation', 'SARL', '456 Rue de Test'),
-(123456789, 'TechCorp', 'Technologie', '15 Rue des Innovateurs, Paris'),
-(987654321, 'Foodies', 'Restauration', '24 Boulevard du Gourmet, Lyon');
+('0', 'TestOrg', 'TestTypeOrg', '11 rue du test, Paris'),
+('112233445', 'EcoSolutions', 'Environnement', '8 Rue des Écologistes, Marseille'),
+('112345678', 'Nouvelle Organisation', 'SARL', '456 Rue de Test'),
+('123456789', 'TechCorp', 'Technologie', '15 Rue des Innovateurs, Paris'),
+('987654321', 'Foodies', 'Restauration', '24 Boulevard du Gourmet, Lyon');
 
 -- --------------------------------------------------------
 
@@ -158,7 +159,7 @@ CREATE TABLE `UTILISATEUR` (
   `tel` varchar(20) NOT NULL,
   `date_creation` date NOT NULL,
   `statut_compte` enum('actif','inactif') NOT NULL,
-  `organisation` int(9) DEFAULT NULL,
+  `organisation` varchar(9) DEFAULT NULL,
   `role_utilisateur` enum('utilisateur','recruteur','admin') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -167,10 +168,10 @@ CREATE TABLE `UTILISATEUR` (
 --
 
 INSERT INTO `UTILISATEUR` (`email`, `mdp`, `nom`, `prenom`, `tel`, `date_creation`, `statut_compte`, `organisation`, `role_utilisateur`) VALUES
-('jean.dupont@example.com', 'hashedpassword1', 'Dupond', 'Jeanne', '0987654321', '2025-01-01', 'actif', 123456789, 'utilisateur'),
-('lucas.martin@example.com', 'hashedpassword3', 'Martin', 'Lucas', '0612345680', '2025-01-03', 'inactif', 112233445, 'admin'),
-('marie.lefevre@example.com', 'hashedpassword2', 'Lefevre', 'Marie', '0612345679', '2025-01-02', 'actif', 987654321, 'recruteur'),
-('test@gmail.com', 'newpassword', 'Test', 'User', '1234567890', '2023-10-01', 'inactif', 987654321, 'admin');
+('jean.dupont@example.com', 'hashedpassword1', 'Dupond', 'Jeanne', '0987654321', '2025-01-01', 'actif', '123456789', 'utilisateur'),
+('lucas.martin@example.com', 'hashedpassword3', 'Martin', 'Lucas', '0612345680', '2025-01-03', 'inactif', '112233445', 'admin'),
+('marie.lefevre@example.com', 'hashedpassword2', 'Lefevre', 'Marie', '0612345679', '2025-01-02', 'actif', '987654321', 'recruteur'),
+('test@gmail.com', 'newpassword', 'Test', 'User', '1234567890', '2023-10-01', 'inactif', '987654321', 'admin');
 
 --
 -- Index pour les tables déchargées
