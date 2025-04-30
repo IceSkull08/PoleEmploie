@@ -28,7 +28,7 @@
 <!-- Nav (filtres)-->
     <nav class="bg-dark text-white p-3 col-sm-4 col-md-3 col-lg-2">
       <div id="roleChoice" class="w-100 d-inline-flex justify-content-center gap-2 pt-2 pb-5">
-        <a href="recruiter.html" class="btn btn-primary w-50 text-center align-self-start">Recruteur</a>
+        <a href="recruiter" class="btn btn-primary w-50 text-center align-self-start">Recruteur</a>
         <a href="admin.html" class="btn btn-primary w-50 text-center align-self-start">Admin</a>
       </div>
 
@@ -112,7 +112,7 @@
                             </p>
                             <div class="row w-100">
                                 <p class="col-sm-9 my-2">Candidature possible jusqu'au : <span id="date<%= offre.numero_offre %>"><%= new Date(offre.date_validite).toLocaleDateString() %></span></p>
-                                <a href="/candidature/<%= offre.numero_offre %>" class="btn btn-primary col-sm-3">Postuler</a>
+                                <a href="/candidature?id=<%= offre.numero_offre %>" class="btn btn-primary col-sm-3">Postuler</a>
                             </div>
                         </div>
                     </div>

@@ -11,7 +11,7 @@ module.exports = {
             if (err) {
                 return callback([]);
             }
-            return callback(results);
+            return callback(null, results);
         });
     },
     // permet de lire une offre d'emploi en utilisant son numero_offre
@@ -25,7 +25,7 @@ module.exports = {
             if (results.length === 0) {
                 return callback(null, null);
             }
-            return callback(results[0]);
+            return callback(null, results[0]);
         });
     },
     // permet de créer une fiche de poste
@@ -125,6 +125,25 @@ module.exports = {
             if (err) return callback(err);
             return callback(null, results);
         });
-}
+},
+    //permet le lister les offres d'un recruteur (recruteur est le mail de l'utilisateur qui a créé l'offre)
+    readRecreuiterOffre: function (recruteur, callback) {
+        db.query('SELECT * FROM OFFRE INNER JOIN FICHEDEPOSTE ON OFFRE.numero_fiche = FICHEDEPOSTE.numero_fiche INNER JOIN ORGANISATION ON FICHEDEPOSTE.siren_organisation = ORGANISATION.siren WHERE recruteur = ?', [recruteur], function (err, results) {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null, results);
+        });
+    },
+
+    //permet de lister les fiches de poste d'une organisation
+    readFicheDePosteOrg: function (siren, callback) {
+        db.query('SELECT * FROM FICHEDEPOSTE WHERE siren_organisation = ?', [siren], function (err, results) {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null, results);
+        });
+    }
 
 };

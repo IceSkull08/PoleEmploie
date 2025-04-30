@@ -7,6 +7,102 @@
     <link rel="stylesheet" href="css/user.css">
     <title>Recruiter Page</title>
 </head>
+<!-- modal creation fiche de poste-->
+ <!-- pour le siren de l'ogrnaisation il faut recuperer l'organisation du créateur de la fiche de poste -->
+<div class="modal fade" id="ModalCreationFicheDePoste" tabindex="-1" aria-labelledby="cfdpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-light">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cfdpModalLabel">Nouvelle fiche de poste</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="/add-fdp">
+            <div class="mb-3">
+              <label for="intitule" class="form-label">Intitulé du poste</label>
+              <input type="text" class="form-control" id="intitule" name="intitule" required>
+            </div>
+            <div class="mb-3">
+                <label for="statutPoste" class="form-label">Statut du poste</label>
+                <select class="form-select" id="statutPoste" name="statutPoste" required>
+                    <option value="" disabled selected>Choisir le statut</option>
+                    <option value="Cadre">Cadre</option>
+                    <option value="ETAM">ETAM</option>
+                    <option value="Stagiaire">Stagiaire</option>
+                    <option value="Alternant">Alternant</option>
+                    <option value="Employe">Employe</option>
+                    <option value="interimaire">interimaire</option>
+                    <option value="vacataire">vacataire</option>
+                    <option value="autre">autre</option>
+                </select>
+            </div>
+            <div class="mb-3">
+              <label for="responsable" class="form-label">Responsable Hierarchique</label>
+              <input type="text" class="form-control" id="responsable" name="responsable"></input>
+            </div>
+            <div class="row mb-3">
+              <div class="col-6">
+                <label for="Rythme" class="form-label">Rythme</label>
+                <input type="text" class="form-control" id="Rythme" name="Rythme">
+              </div>
+              <div class="col-6">
+                <label for="salaire" class="form-label">Salaire</label>
+                <input type="number" class="form-control" id="salaire" name="salaire"></input>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Déscription</label>
+              <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="lieu" class="form-label">Lieu</label>
+                <input type="text" class="form-control" id="lieu" name="lieu">
+            </div>
+            <div class="mb-3">
+                <label for="typeMetier" class="form-label">Type de metier</label>
+                <input type="text" class="form-control" id="typeMetier" name="typeMetier">
+            </div>
+            <button type="submit" class="btn btn-primary">Créer l'offre</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- modal creation offre-->
+<div class="modal fade" id="ModalCreationOffre" tabindex="-1" aria-labelledby="offreModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-light">
+        <div class="modal-header">
+          <h5 class="modal-title" id="offreModalLabel">Nouvelle offre</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="/add-offre">
+            <div class="mb-3">
+              <label for="intitule" class="form-label">Intitulé du poste</label>
+              <select class="form-select" id="statutPoste" name="statutPoste" required>
+                  <option value="" disabled selected>Choisir la fiche de poste</option>
+                <% fiches.forEach((fiche) => { %>
+                    <option value="<%= fiche.numero_fiche %>"><%= fiche.intitule %></option>
+                <% }) %>
+            </select>
+            </div>
+            <div class="mb-3">
+              <label for="piece" class="form-label">Pieces demandées</label>
+              <input type="text" class="form-control" id="piece" name="piece" placeholder="CV, lettre de motivation ..." required></input>
+            </div>
+            <div class="mb-3">
+              <label for="nbPiece" class="form-label">Nombre de pieces demandées </label>
+              <input type="number" class="form-control" id="nbPiece" name="nbPiece" required>
+            </div>
+            <!-- Ajoute les autres champs que tu veux ici -->
+            <button type="submit" class="btn btn-primary">Créer l'offre</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <!-- body -->
 <body class="d-flex flex-column min-vh-100">
 
@@ -27,20 +123,25 @@
     <!-- Nav (filtres) -->
     <nav class="bg-dark text-white p-3 col-sm-4 col-md-3 col-lg-2">
         <div id="roleChoice" class="w-100 d-inline-flex justify-content-center gap-2 pt-2 pb-5">
-            <a href="user.html" class="btn btn-primary w-50 text-center align-self-start">Utilisateur</a>
+            <a href="users" class="btn btn-primary w-50 text-center align-self-start">Utilisateur</a>
             <a href="admin.html" class="btn btn-primary w-50 text-center align-self-start">Admin</a>
         </div>
         <div id="filtre" class="d-flex flex-column gap-2 w-100">
-            <a href="addOffre.html" class="btn btn-primary" id="addOffer">Ajouter une offre</a>
+            <div id="boutonCreation" class="d-flex gap-2 w-100">
+                <button class="btn btn-primary w-50" id="addFicheDePoste" data-bs-toggle="modal" data-bs-target="#ModalCreationFicheDePoste">Ajouter une fiche de poste</button>
+                <button class="btn btn-primary w-50" id="addOffer" data-bs-toggle="modal" data-bs-target="#ModalCreationOffre">Ajouter une offre</button>
+            </div>
+            <div id="boutonSee" class="d-flex gap-2 w-100">
+                <button class="btn btn-primary w-50" id="seeFicheDePoste">Voir mes fiches de poste</button>
+                <button class="btn btn-primary w-50" id="seeOffre">Voir mes offres</button>
+            </div>
             <form id="filtreForm" class="d-flex flex-column gap-2" method="get">
                 <label for="offre">Filtrer par offre de poste: </label>
                 <select name="offre" id="offre">
                     <option value="all">Toutes les offres</option>
-                    <option value="poste1">Intitulé Offre 1</option>
-                    <option value="poste2">Intitulé Offre 2</option>
-                    <option value="poste3">Intitulé Offre 3</option>
-                    <option value="poste4">Intitulé Offre 4</option>
-                    <option value="poste5">Intitulé Offre 5</option>
+                    <% offres.forEach((offre) => { %>
+                        <option value="<%= offre.numero_offre %>"><%= offre.intitule %></option>
+                    <% }) %>
                 </select>
                 <button class="btn btn-primary" type="submit">Filtrer</button>
             </form>
