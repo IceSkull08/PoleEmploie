@@ -35,11 +35,8 @@
 ✅ createFicheDePoste => createFicheDePoste(siren, intitule, statut_poste, responsable, rythme, salaire, description, lieu, typeMetier)
 ✅ creer une offre d'emploi en lien avec une fiche de poste => createOffre(numero_fiche, etat, date_fin, piece_demande, nbr_piece, recruteur)
 ✅ supprimer une offre => deleteOffre(id)
-✅ lire les postes filtré avec la date de fin => readSortDate(date)
-✅ filtré avec le nom de l'entreprise => readSortOrganisation(siren)
-✅ filtré avec la ville => readSortCity(ville)
-✅ filtré avec type de metier => readSortJobType(typeMetier)
-✅ filtré avec salaire (min max) => readSortSalaire(salaire_min, salaire_max)
+✅ filtrer les offres => filter()
+lire les offres d'un organisateur (avec l'email du recruiter) => readRecreuiterOffre(email)
 
 
 page user:

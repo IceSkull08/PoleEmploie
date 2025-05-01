@@ -107,9 +107,15 @@
                             <p id="salaire<%= offre.numero_offre %>" class="col-md-1 col-sm-3 col-3"><%= offre.salaire %></p>
                         </div>
                         <div id="jobBody<%= offre.numero_offre %>" hidden class="my-2">
-                            <p id="desc<%= offre.numero_offre %>" class="col">
-                                <%= offre.description %>
-                            </p>
+                          <p id="desc<%= offre.numero_offre %>" class="col">
+                            <%- offre.description
+                                .replace(/&/g, '&amp;')
+                                .replace(/</g, '&lt;')
+                                .replace(/>/g, '&gt;')
+                                .replace(/"/g, '&quot;')
+                                .replace(/'/g, '&#39;')
+                                .replace(/\n/g, '<br>') %>
+                          </p>
                             <div class="row w-100">
                                 <p class="col-sm-9 my-2">Candidature possible jusqu'au : <span id="date<%= offre.numero_offre %>"><%= new Date(offre.date_validite).toLocaleDateString() %></span></p>
                                 <a href="/candidature?id=<%= offre.numero_offre %>" class="btn btn-primary col-sm-3">Postuler</a>

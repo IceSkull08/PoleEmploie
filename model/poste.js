@@ -35,6 +35,7 @@ module.exports = {
             if (err) {
                 return callback(err);
             }
+            console.log("Fiche de poste créée avec succès !");
             return callback(null);
         });
     },
@@ -47,6 +48,7 @@ module.exports = {
             if (err) {
                 return callback(err);
             }
+            console.log("Offre créée avec succès !");
             return callback(null);
         });
     },

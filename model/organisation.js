@@ -6,9 +6,6 @@ module.exports = {
             if (err) {
                 return callback(err);
             }
-            if (results.length === 0) {
-                return callback(null, null);
-            }
             return callback(null, results[0]);
         });
     },
