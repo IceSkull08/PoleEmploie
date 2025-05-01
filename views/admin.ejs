@@ -18,7 +18,7 @@
                     <div class="d-flex gap-2 align-items-center">
                         <a>username</a>
                         <div id="logout">
-                            <button class="btn btn-primary">Logout</button>
+                            <a href="/"><button class="btn btn-primary">Logout</button></a>
                         </div>
                     </div>
             </header>
@@ -51,25 +51,70 @@
 
 
 <!-- main  -->
-        <main class="flex-grow-1 p-3 col-sm-8 col-md-9 col-lg-10">
+<main class="flex-grow-1 p-3 col-sm-8 col-md-9 col-lg-10">
 
 
-            <!-- <div id="elementList" class="d-flex flex-column gap-2 p-2">
-                <% if filters.element === 'all' { %>
-                    <% liste.forEach(())
-                <% } %>
-                <div id="jobItem" class="w-100 bg-dark p-2 rounded text-white d-flex flex-column justify-content-between">
-                    <div id="jobTitle" class="d-flex justify-content-between w-100">
-                        <p>testName</p>
-                    </div> 
-                    <div id="jobBody" hidden>
-                        <p>testBody</p>
-                    </div>
-                </div>
-            </div> -->
+    <h1>
+        <!-- < title > -->
+         TODO 
+    </h1>
+    <table   class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <th>Tel</th>
+                <th>Rôle</th>
+                <th>Organisation</th>
+                <th>crée le</th>
+                <th>status</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach((user)=> { %>
+                <tr>
+                    <td>
+                        <%= user.prenom %>
+                    </td>
+                    <td>
+                        <%= user.nom %>
+                    </td>
+                    <td>
+                        <%= user.email %>
+                    </td>
+                    <td>
+                        <%= user.tel %>
+                    </td>
+                    <td>
+                        <%= user.role_utilisateur %>
+                    </td>
+                    <td>
+                        <%= user.organisation %>
+                    </td>
+                    <td>
+                        <%= user.date_creation.toLocaleString() %>
+                    </td>
+
+                    <td>
+                        <%= user.statut_compte %>
+                    </td>
+
+                    <td><button>active droits administrateurs</button></td>
+                    <td><button>désactive droits administrateurs</button></td>
+                    <td><button>modifier</button></td>
+                    <td><button>désactiver</button></td>
+                    <td><button>supprimer</button></td>
+
+                    
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
 
 
-        </main>
+</main>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
