@@ -171,6 +171,7 @@ INSERT INTO `UTILISATEUR` (`email`, `mdp`, `nom`, `prenom`, `tel`, `date_creatio
 ('jean.dupont@example.com', 'hashedpassword1', 'Dupond', 'Jeanne', '0987654321', '2025-01-01', 'actif', '123456789', 'utilisateur'),
 ('lucas.martin@example.com', 'hashedpassword3', 'Martin', 'Lucas', '0612345680', '2025-01-03', 'inactif', '112233445', 'admin'),
 ('marie.lefevre@example.com', 'hashedpassword2', 'Lefevre', 'Marie', '0612345679', '2025-01-02', 'actif', '987654321', 'recruteur'),
+('test@test.fr', '123', 'test', 'toto', '1234567890', '2023-10-01', 'inactif', '987654321', 'utilisateur'),
 ('test@gmail.com', 'newpassword', 'Test', 'User', '1234567890', '2023-10-01', 'inactif', '987654321', 'admin');
 
 --
