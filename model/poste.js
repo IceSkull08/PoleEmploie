@@ -146,6 +146,15 @@ module.exports = {
             }
             return callback(null, results);
         });
+    },
+    //permet de lister toutes  les fiches de poste 
+    readAllPoste: function (callback) {
+        db.query('SELECT * FROM FICHEDEPOSTE',  function (err, results) {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null, results);
+        });
     }
 
 };
