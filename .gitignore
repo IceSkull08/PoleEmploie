@@ -1,4 +1,6 @@
 model/temp.js
 ./note.txt
+/coverage/
+coverage/**
 node_modules/
 package-lock.json

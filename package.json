@@ -7,7 +7,7 @@
     "test": "jest",
     "test2": "jest --detectOpenHandles"
   },
-  "jtest":{
+  "jest":{
     "collectCoverage":true
   },
   "dependencies": {
