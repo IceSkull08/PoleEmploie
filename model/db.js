@@ -1,10 +1,10 @@
 var mysql = require('mysql2');
 
 var pool = mysql.createPool({
-    host: "localhost", //ou localhost
-    user: "sr10",
-    password: "12345678",
-    database: "sr10p079"
+    host: "tuxa.sme.utc",
+    user: "sr10p081",
+    password: "un8cIXySY82u",
+    database: "sr10p081"
 });
 
 module.exports = pool;
