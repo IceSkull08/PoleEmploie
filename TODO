@@ -15,5 +15,9 @@ afficher organisation
 users salaire max  (min ok)
 JS verifier password
 
+recruteur
+    afficher offres ok
+    filtrer offres 
+    voir mes offres
 
-afficher offres
+finir test model user

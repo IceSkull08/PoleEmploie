@@ -1,28 +1,28 @@
 const DB = require("../model/db.js");
 const model = require("../model/user.js");
 
-describe("Model Tests", () => {
+
+const userModel = require("../model/user.js");
 
 
-    beforeAll(() => {
-        console.log("model.user.test()");
-        // des instructions à exécuter avant le lancement de cette suite de tests
+
+const orgModel = require('../model/organisation.js');
+
+describe("test model user", () => {
+    afterAll((done) => {
+        DB.end(done);
     });
-        afterAll((done) => {
-        function callback(err) {
-            if (err) done(err);
-            else done();
-        }
-        DB.end(callback);
+
+
+
+    test("read user", (done) => {
+        userModel.read('user.test@testmail.com', (err, result) => {
+            if (err) return done(err); 
+            expect(result).toBeDefined(); 
+            expect(result.nom).toBe('Testeur'); 
+            done(); 
+        });
+    });
+
         
-    });
-        test("read user", async () => {
-        nom = null;
-        function cbRead(resultat) {
-            console.log(resultat);
-            nom = resultat.nom;
-            expect(nom).toBe("test");
-        }
-        let res = await model.read("test@test.fr", cbRead);
-    });
 });

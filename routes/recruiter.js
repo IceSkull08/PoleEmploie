@@ -4,17 +4,17 @@ var poste = require('../model/poste.js');
 
 
 
-router.post('/add-fdp', function(req, res, next) {
+router.post('/add-fdp', function (req, res, next) {
   const sirenTemp = "000000000";
-  const { intitule, statutPoste, responsable, Rythme, salaire, description, lieu, typeMetier} = req.body;
+  const { intitule, statutPoste, responsable, Rythme, salaire, description, lieu, typeMetier } = req.body;
   poste.createFicheDePoste(sirenTemp, intitule, statutPoste, responsable, Rythme, salaire, description, lieu, typeMetier, (err) => {
     if (err) return next(err);
     res.redirect('/recruiter');
   });
 });
 
-router.post('/add-offre', function(req, res, next) {
-  const {intitule, piece, nbPiece, dateValidite} = req.body;
+router.post('/add-offre', function (req, res, next) {
+  const { intitule, piece, nbPiece, dateValidite } = req.body;
   const etat = "publié";
   const recruteurTemp = "marie.lefevre@example.com";
   console.log("intitule", intitule);
@@ -30,8 +30,21 @@ router.post('/add-offre', function(req, res, next) {
 });
 
 
-router.get('/', function(req, res, next) {
-  poste.readFicheDePosteOrg('000000000', (err, fiches) => { //req.session.user.siren
+// router.get('/', function(req, res, next) {
+//   poste.readFicheDePosteOrg('000000000', (err, fiches) => { //req.session.user.siren
+//     if (err) return next(err);
+//     console.log(fiches);
+//     poste.readRecreuiterOffre('marie.lefevre@example.com', (err, offres) => { //req.session.user.email
+//       if (err) return next(err);
+//       // console.log(offres);
+//       res.render('recruiter', { offres, fiches });
+//     });
+//   });
+// });
+
+router.get('/', function (req, res, next) {
+  // poste.readFicheDePosteOrg('000000000', (err, fiches) => { //req.session.user.siren
+  poste.readAllPoste((err, fiches) => { //req.session.user.siren
     if (err) return next(err);
     console.log(fiches);
     poste.readRecreuiterOffre('marie.lefevre@example.com', (err, offres) => { //req.session.user.email
@@ -41,5 +54,6 @@ router.get('/', function(req, res, next) {
     });
   });
 });
+
 
 module.exports = router;
