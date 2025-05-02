@@ -17,7 +17,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
         </div>
         <div class="modal-body">
-          <form method="post" action="/add-fdp">
+          <form method="post" action="/recruiter/add-fdp">
             <div class="mb-3">
               <label for="intitule" class="form-label">Intitulé du poste</label>
               <input type="text" class="form-control" id="intitule" name="intitule" required>
@@ -77,10 +77,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
         </div>
         <div class="modal-body">
-          <form method="post" action="/add-offre">
+          <form method="post" action="/recruiter/add-offre">
             <div class="mb-3">
               <label for="intitule" class="form-label">Intitulé du poste</label>
-              <select class="form-select" id="statutPoste" name="statutPoste" required>
+              <select class="form-select" id="intitule" name="intitule" required>
                   <option value="" disabled selected>Choisir la fiche de poste</option>
                 <% fiches.forEach((fiche) => { %>
                     <option value="<%= fiche.numero_fiche %>"><%= fiche.intitule %></option>
@@ -95,7 +95,10 @@
               <label for="nbPiece" class="form-label">Nombre de pieces demandées </label>
               <input type="number" class="form-control" id="nbPiece" name="nbPiece" required>
             </div>
-            <!-- Ajoute les autres champs que tu veux ici -->
+            <div class="mb-3">
+              <label for="dateValidite" class="form-label">Date de validité</label>
+              <input type="date" class="form-control" id="dateValidite" name="dateValidite" required></input>
+            </div>
             <button type="submit" class="btn btn-primary">Créer l'offre</button>
           </form>
         </div>
@@ -126,7 +129,7 @@
     <nav class="bg-dark text-white p-3 col-sm-4 col-md-3 col-lg-2">
         <div id="roleChoice" class="w-100 d-inline-flex justify-content-center gap-2 pt-2 pb-5">
             <a href="users" class="btn btn-primary w-50 text-center align-self-start">Utilisateur</a>
-            <a href="admin.html" class="btn btn-primary w-50 text-center align-self-start">Admin</a>
+            <a href="admins" class="btn btn-primary w-50 text-center align-self-start">Admin</a>
         </div>
         <div id="filtre" class="d-flex flex-column gap-2 w-100">
             <div id="boutonCreation" class="d-flex gap-2 w-100">
