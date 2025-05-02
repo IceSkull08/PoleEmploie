@@ -3,20 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-<<<<<<< HEAD
     "start": "node ./bin/www",
     "test": "jest"
   },
   "jest": {
     "collectCoverage": true
-=======
-    "start": "nodemon ./bin/www",
-    "test": "jest",
-    "test2": "jest --detectOpenHandles"
-  },
-  "jest":{
-    "collectCoverage":true
->>>>>>> YP
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
