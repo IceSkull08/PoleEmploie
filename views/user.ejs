@@ -33,6 +33,10 @@
       </div>
 
       <div id="filtre" class="d-flex flex-column gap-2 w-100">
+        <div id="boutonOrg" class="d-flex gap-2 w-100">
+          <button class="btn btn-primary w-50" id="createOrg">Créer une organisation</button>
+          <a href="organisation" class="btn btn-primary w-50 text-center align-self-start">Liste des organisations</a>
+        </div>
         <form id="filtreForm" class="d-flex flex-column gap-2" method="get">
           <label for="date">Date fin</label>
           <input type="date" name="date" id="date" class="form-control" value="<%= filters.date || '' %>"/>
