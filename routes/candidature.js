@@ -1,75 +1,72 @@
 const express = require('express');
 const router = express.Router();
 const poste = require('../model/poste.js');
-
-const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { formidable } = require('formidable');
+const candidature = require('../model/candidature.js');
 
-// CONFIGURATION DE MULTER
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const email = req.body.email || "marie.lefevre@example.com";
-    const emailSafe = email.replace(/[@.]/g, "_");
-    const candidatureId = req.query.id;
-    const dir = path.join('uploads', emailSafe, candidatureId);
-
-    fs.mkdirSync(dir, { recursive: true });
-    cb(null, dir);
-  },
-  filename: function (req, file, cb) {
-    const originalName = file.originalname;
-    const ext = path.extname(originalName);
-    const base = path.basename(originalName, ext);
-    const timestamp = Date.now();
-    cb(null, `${base}_${timestamp}${ext}`);
-  }
-});
-
-// afficher la fiche d'offre
-router.get('/', function(req, res, next) {
-  console.log("id =", req.query.id);
-  poste.read(req.query.id, (err, offre) => {
+// GET : affiche l'offre
+router.get('/', function (req, res, next) {
+  const id = req.query.id;
+  poste.read(id, (err, offre) => {
     if (err) return next(err);
-    console.log(offre);
     res.render('candidature', { offre });
   });
 });
 
-// route pour le traitement du formulaire d'envoi de fichiers
-router.post('/', function(req, res, next) {
-  const offreId = req.query.id;
+// POST : traite le formulaire de candidature
+router.post('/', (req, res, next) => {
+  const id = req.query.id;
 
-  poste.read(offreId, (err, offre) => {
+  poste.read(id, (err, offre) => {
     if (err) return next(err);
 
     const maxFiles = offre.nombre_piece_demande;
-    const dynamicUpload = multer({
-      storage: storage,
-      limits: { files: maxFiles }
-    }).array('fichiers', maxFiles);
+    const uploadDir = path.join(__dirname, '..', 'uploads'); // dossier temporaire
 
-    dynamicUpload(req, res, function (err) {
-      if (err) {
-        console.error("Erreur Multer :", err);
-        return res.status(400).send("Erreur d'envoi de fichiers : " + err.message);
-      }
+    const form = formidable({
+      multiples: true,
+      maxFiles: maxFiles,
+      uploadDir: uploadDir, // dossier temporaire
+      keepExtensions: true
+    });
 
-      const files = req.files;
-      const { email, numero_candidature } = req.body;
+    form.parse(req, (err, fields, files) => {
+      if (err) return next(err);
 
-      if (!files || files.length === 0) {
-        return res.status(400).send("Aucun fichier envoyé.");
-      }
+      const email = fields.email || 'marie.lefevre@example.com';
+      const emailSafe = email.replace(/[@.]/g, '_');
+      const candidatureId = id;
 
-      if (files.length !== maxFiles) {
+      const targetDir = path.join(uploadDir, emailSafe, candidatureId);
+      fs.mkdirSync(targetDir, { recursive: true });
+
+      const uploadedFiles = Array.isArray(files.fichiers) ? files.fichiers : [files.fichiers];
+
+      if (uploadedFiles.length !== maxFiles) {
+        uploadedFiles.forEach(file => fs.unlinkSync(file.filepath)); // supprimer les fichiers temporaires en cas d'erreur
         return res.status(400).send(`Vous devez envoyer exactement ${maxFiles} fichier(s).`);
       }
 
-      console.log(`Fichiers reçus pour ${email}, candidature n°${numero_candidature}:`);
-      files.forEach(file => console.log(file.path));
+      // déplace et renomme les fichiers
+      uploadedFiles.forEach(file => {
+        const ext = path.extname(file.originalFilename);
+        const base = path.basename(file.originalFilename, ext);
+        const newName = `${base}_${Date.now()}${ext}`;
+        const destPath = path.join(targetDir, newName);
 
-      return res.send('Fichiers envoyés avec succès');
+        fs.renameSync(file.filepath, destPath);
+        console.log(`Fichier sauvegardé : ${destPath}`);
+      });
+
+      candidature.createCandidature(email, candidatureId, (err) => {
+        if (err) {
+          return res.status(500).send('Erreur lors de la création de la candidature.');
+        }
+        console.log("Candidature créée avec succès !");
+        res.send('Fichiers envoyés avec succès, et candidature créée !');
+      });
     });
   });
 });

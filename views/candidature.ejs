@@ -54,23 +54,23 @@
       </div>
 
       <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary" >Postuler</button>
+        <button type="submit" class="btn btn-primary" disabled>Postuler</button>
       </div>
     </form>
   </div>
 </div>
 
 <script>
-  // document.getElementById("fichiers").addEventListener("change", function () {
-  //   const submitButton = document.querySelector("button[type='submit']");
-  //   if (this.files.length != "<%= offre.nombre_piece_demande %>" ) {
-  //     alert("Vous devez selectionner <%= offre.nombre_piece_demande %> fichiers");
-  //     this.value = "";
-  //     submitButton.disabled = true;
-  //   } else {
-  //     submitButton.disabled = false;
-  //   }
-  // });
+  document.getElementById("fichiers").addEventListener("change", function () {
+    const submitButton = document.querySelector("button[type='submit']");
+    if (this.files.length != "<%= offre.nombre_piece_demande %>" ) {
+      alert("Vous devez selectionner <%= offre.nombre_piece_demande %> fichiers");
+      this.value = "";
+      submitButton.disabled = true;
+    } else {
+      submitButton.disabled = false;
+    }
+  });
 
   document.getElementById("uploadForm").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -87,10 +87,10 @@
     })
     .then(response => {
       if (response.ok) {
-        alert("Fichiers envoyés avec succès !");
+        alert("Fichiers envoyés avec succès !\nMerci de votre candidature.");
         form.reset();
       } else {
-        alert("Erreur lors de l'envoi.");
+        alert("Erreur lors de l'envoi. (Vérifiez le nombre de fichiers.)");
       }
     })
     .catch(error => {
