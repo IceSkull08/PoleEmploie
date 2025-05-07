@@ -61,15 +61,6 @@ module.exports = {
             return callback(null);
         });
     },
-    // readSortCity: function (ville, callback) {
-    //     const pattern = `%${ville}%`;
-    //     db.query('SELECT * FROM OFFRE INNER JOIN FICHEDEPOSTE ON OFFRE.numero_fiche = FICHEDEPOSTE.numero_fiche INNER JOIN ORGANISATION ON FICHEDEPOSTE.siren_organisation = ORGANISATION.siren WHERE FICHEDEPOSTE.lieu LIKE ?', [pattern], function (err, results) {
-    //         if (err) {
-    //             return callback(err);
-    //         }
-    //         return callback(null, results);
-    //     });
-    // },
    //permet de filtrer les offres
    filter: function(filters, callback) {
         let sql = `
@@ -129,7 +120,7 @@ module.exports = {
         });
 },
     //permet le lister les offres d'un recruteur (recruteur est le mail de l'utilisateur qui a créé l'offre)
-    readRecreuiterOffre: function (recruteur, callback) {
+    readRecruiterOffre: function (recruteur, callback) {
         db.query('SELECT * FROM OFFRE INNER JOIN FICHEDEPOSTE ON OFFRE.numero_fiche = FICHEDEPOSTE.numero_fiche INNER JOIN ORGANISATION ON FICHEDEPOSTE.siren_organisation = ORGANISATION.siren WHERE recruteur = ?', [recruteur], function (err, results) {
             if (err) {
                 return callback(err);

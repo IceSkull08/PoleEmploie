@@ -111,6 +111,66 @@
   </div>
 </div>
 
+<!-- modal afficher mes fiches de poste-->
+<div class="modal fade" id="ModalListeFDP" tabindex="-1" aria-labelledby="MesFDPModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content bg-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="MesFDPModalLabel">Liste des Fiches de poste de mon organisation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <% fiches.forEach((fiche) => { %>
+          <div class="row w-100 m-1 align-items-center bg-dark text-white p-2 rounded mb-2">
+            <p class="col-lg-2 col-md-4 col-sm-12 text-center"><%= fiche.intitule %></p>
+            <p class="col-lg-2 col-md-4 col-sm-4 text-center"><%= fiche.statut_poste %></p>
+            <p class="col-lg-1 col-md-4 col-sm-4 text-center"><%= fiche.rythme %></p>
+            <p class="col-lg-1 col-md-4 col-sm-4 text-center"><%= fiche.salaire %></p>
+            <p class="col-lg-2 col-md-4 col-sm-6 text-center"><%= fiche.lieu %></p>
+            <p class="col-lg-2 col-md-4 col-sm-6 text-center"><%= fiche.responsable %></p>
+            <button class="btn btn-primary col-lg-2 col-md-12 col-sm-12 text-center">Supprimer</button>
+            <!-- TODO : ajouter la possibilité de supprimer ? -->
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal afficher mes offres de postes-->
+<div class="modal fade" id="ModalListeOffre" tabindex="-1" aria-labelledby="MesOffresModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content bg-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="MesOffresModalLabel">Liste des mes offres publiées</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row w-100 m-1 align-items-center bg-dark text-white p-2 rounded mb-2">
+          <p id="intitule" class="col-lg-3 col-md-4 col-sm-6 text-center">Intitulé</p>
+          <p id="etat" class="col-lg-2 col-md-4 col-sm-6 text-center">Etat</p>
+          <p id="dateFin" class="col-lg-2 col-md-4 col-sm-6 text-center">Date de validité</p>
+          <p id="pieceDmd" class="col-lg-2 col-md-4 col-sm-6 text-center">Pieces demandées</p>
+          <p id="nbPiece" class="col-lg-1 col-md-4 col-sm-6 text-center">Nombre de piece demandées</p>
+          <div class="col-lg-2 col-md-4 col-sm-6 "></div>
+          <!-- TODO : ajouter la possibilité de supprimer ? -->
+        </div>
+          <% offres.forEach((offre) => { %>
+            <div class="row w-100 m-1 align-items-center bg-dark text-white p-2 rounded mb-2">
+              <p id="intitule<%= offre.numero_offre %>" class="col-lg-3 col-md-4 col-sm-6 text-center"><%= offre.intitule %></p>
+              <p id="etat<%= offre.numero_offre %>" class="col-lg-2 col-md-4 col-sm-6 text-center"><%= offre.etat %></p>
+              <p id="dateFin<%= offre.numero_offre %>" class="col-lg-2 col-md-4 col-sm-6 text-center"><%= new Date(offre.date_validite).toLocaleDateString() %></p>
+              <p id="pieceDmd<%= offre.numero_offre %>" class="col-lg-2 col-md-4 col-sm-6 text-center"><%= offre.piece_demande %></p>
+              <p id="nbPiece<%= offre.numero_offre %>" class="col-lg-1 col-md-4 col-sm-6 text-center"><%= offre.nombre_piece_demande %></p>
+              <button class="btn btn-primary col-lg-2 col-md-4 col-sm-6 text-center">Supprimer</button>
+              <!-- TODO : ajouter la possibilité de supprimer ? -->
+            </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- body -->
 
 <body class="d-flex flex-column min-vh-100">
@@ -146,8 +206,8 @@
             data-bs-target="#ModalCreationOffre">Ajouter une offre</button>
         </div>
         <div id="boutonSee" class="d-flex gap-2 w-100">
-          <button class="btn btn-primary w-50" id="seeFicheDePoste">Voir mes fiches de poste</button>
-          <button class="btn btn-primary w-50" id="seeOffre">Voir mes offres</button>
+          <button class="btn btn-primary w-50" id="seeFicheDePoste" data-bs-toggle="modal" data-bs-target="#ModalListeFDP">Voir mes fiches de poste</button>
+          <button class="btn btn-primary w-50" id="seeOffre" data-bs-toggle="modal" data-bs-target="#ModalListeOffre">Voir mes offres</button>
         </div>
         <form id="filtreForm" class="d-flex flex-column gap-2" method="get">
           <label for="offre">Filtrer par offre de poste: </label>
@@ -184,14 +244,14 @@
       </div>
 
 
-      <div>
+      <!-- <div> -->
         <!-- <% offres.forEach((offre)=> { %>
           <option value="<%= offre.numero_offre %>">
             <%= offre.intitule %>
           </option>
           <% }) %> -->
 
-            <table class="table table-striped">
+            <!-- <table class="table table-striped">
               <thead class="thead-dark">
                 <tr>
                   <th>intitulé</th>
@@ -230,12 +290,12 @@
                     </td>
 
                   </tr>
-                  
+                   -->
                     
                       <!-- <%= offre.description%> -->
                     
 
-                  
+<!--                   
                   <% }) %>
               </tbody>
             </table>
@@ -244,7 +304,7 @@
 
 
 
-      </div>
+      </div> -->
 
       
   </div>
