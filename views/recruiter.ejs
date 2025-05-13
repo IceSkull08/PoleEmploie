@@ -261,7 +261,7 @@
             <p class="col-1"><%= candidature.tel %></p>
             <p class="col-1"><%= new Date(candidature.date_validite).toLocaleDateString() %></p>
 
-            <button class="btn btn-primary col-2">Telecharger</button>
+            <a href="/recruiter/download/<%= candidature.email.replace(/[@.]/g, '_') %>/<%= candidature.numero_offre%>" class="btn btn-primary col-2">Telecharger</a>
             <a href="/candidature?id=<%= candidature.numero_offre %>" class="btn btn-primary col-2" target="_blank">Voir l'offre</a>
           </div>
         </div>

@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var poste = require('../model/poste.js');
+const archiver = require('archiver');
+const fs = require('fs');
+const path = require('path');
 
 
 
@@ -59,6 +62,32 @@ router.get('/', function (req, res, next) {
       });
     });    
   });
+});
+
+router.get('/download/:email/:id', (req, res, next) => {
+  const email = req.params.email.replace(/[@.]/g, '_');
+  const id = req.params.id;
+  const dossierPath = path.join(__dirname, '..', 'uploads', email, id);
+
+  // Vérifie si le dossier existe
+  if (!fs.existsSync(dossierPath)) {
+      return res.status(404).send("Dossier introuvable.");
+  }
+
+  // Nom du zip
+  const zipName = `candidature_${email}_${id}.zip`;
+
+  res.setHeader('Content-Disposition', `attachment; filename=${zipName}`);
+  res.setHeader('Content-Type', 'application/zip');
+
+  const archive = archiver('zip', {
+      zlib: { level: 9 }
+  });
+
+  archive.on('error', err => next(err));
+  archive.pipe(res);
+  archive.directory(dossierPath, false);
+  archive.finalize();
 });
 
 
