@@ -1,16 +1,20 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var adminsRouter = require('./routes/admins');
-var recruiterRouter = require('./routes/recruiter');
-var candidatureRouter = require('./routes/candidature');
-var loginRouter = require('./routes/login');
-var organisationRouter = require('./routes/organisation');
+// const session = require('express-session');
+var session = require('./session');
+
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const adminsRouter = require('./routes/admins');
+const recruiterRouter = require('./routes/recruiter');
+const candidatureRouter = require('./routes/candidature');
+const loginRouter = require('./routes/login');
+const organisationRouter = require('./routes/organisation');
+
 
 
 var app = express();
@@ -19,27 +23,85 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+
+
+
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+
+// autre version debut tp4
+// const deuxHeures = 1000 * 60 * 60 * 2;
+// app.use(session({
+//   secret: "un secret pour tester",
+//   saveUninitialized: true,
+//   cookie: { maxAge: deuxHeures },
+//   resave: false
+// }));
+
+
+// check user before app.use (path, router)
+app.all("*", function (req, res, next) {
+  const nonSecurePaths = ["/login", "/signup"];
+  const adminPaths = ["/admin"]; //list des urls admin
+  if (nonSecurePaths.includes(req.path)) {
+    console.log("debug non secure path")
+    return next();}
+  //authenticate user
+  if (adminPaths.includes(req.path)) {
+    console.log("debug admin path")
+    if (session.isConnected(req.session, "admin")) return next();
+    else
+      res
+        .status(403)
+        .render("error", { message: " Unauthorized access", error: {} });
+  } else {
+    if (session.isConnected(req.session)) return next();
+    // not authenticated
+    else res.redirect("/login");
+  }
+});
+
+
+
+// app.use('/', indexRouter);
+
+// app.get('/', (req, res) => {
+//   session = req.session;
+//   console.log("session.userid =" + session.userid)
+//   if (session.userid) {
+//     res.send("Welcome User <a href=\'/logout'>click to logout</a>");
+//   } else
+//     res.redirect("/login");
+// });
+
+app.get('/profil', (req, res) => {
+  console.log("TODO router profil")
+  if (req.session.user) {
+    res.send('Bienvenue sur votre profil, ' + req.session.user + '!');
+  } else {
+    res.redirect('/login');
+  }
+});
+
 app.use('/users', usersRouter);
 app.use('/admins', adminsRouter);
 app.use('/recruiter', recruiterRouter);
 app.use('/candidature', candidatureRouter);
 app.use('/login', loginRouter);
-app.use('/organisation',organisationRouter);
+app.use('/organisation', organisationRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
