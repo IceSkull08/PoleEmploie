@@ -146,6 +146,18 @@ module.exports = {
             }
             return callback(null, results);
         });
+    },
+    filterCandidature: function(filters, callback) {
+        if (!filters) {
+            db.query('SELECT CANDIDATURE.numero_candidature, CANDIDATURE.email, CANDIDATURE.numero_offre, UTILISATEUR.nom, UTILISATEUR.prenom, UTILISATEUR.tel, OFFRE.date_validite, FICHEDEPOSTE.intitule FROM CANDIDATURE inner join UTILISATEUR on CANDIDATURE.email = UTILISATEUR.email inner join OFFRE ON CANDIDATURE.numero_offre = OFFRE.numero_offre inner join FICHEDEPOSTE on OFFRE.numero_fiche = FICHEDEPOSTE.numero_fiche', [], function (err, results) {
+                if (err) return callback(err);
+                return callback(null, results);
+            });
+        } else {
+            db.query('SELECT CANDIDATURE.numero_candidature, CANDIDATURE.email, CANDIDATURE.numero_offre, UTILISATEUR.nom, UTILISATEUR.prenom, UTILISATEUR.tel, OFFRE.date_validite, FICHEDEPOSTE.intitule FROM CANDIDATURE inner join UTILISATEUR on CANDIDATURE.email = UTILISATEUR.email inner join OFFRE ON CANDIDATURE.numero_offre = OFFRE.numero_offre inner join FICHEDEPOSTE on OFFRE.numero_fiche = FICHEDEPOSTE.numero_fiche WHERE CANDIDATURE.numero_offre = ?', [filters], function (err, results) {
+                if (err) return callback(err);
+                return callback(null, results);
+            });
+        }
     }
-
 };

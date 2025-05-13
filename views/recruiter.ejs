@@ -120,6 +120,16 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
       </div>
       <div class="modal-body">
+        <div class="row w-100 m-1 align-items-center bg-dark text-white p-2 rounded mb-2">
+          <p class="col-lg-2 col-md-4 col-sm-12 text-center">Titre</p>
+          <p class="col-lg-2 col-md-4 col-sm-4 text-center">Statut du poste</p>
+          <p class="col-lg-1 col-md-4 col-sm-4 text-center">Rythme</p>
+          <p class="col-lg-1 col-md-4 col-sm-4 text-center">Salaire</p>
+          <p class="col-lg-2 col-md-4 col-sm-6 text-center">Lieu</p>
+          <p class="col-lg-2 col-md-4 col-sm-6 text-center">Responsable</p>
+          <div class="col-lg-2 col-md-12 col-sm-12 text-center"></div>
+          <!-- TODO : ajouter la possibilité de supprimer ? -->
+        </div>
         <% fiches.forEach((fiche) => { %>
           <div class="row w-100 m-1 align-items-center bg-dark text-white p-2 rounded mb-2">
             <p class="col-lg-2 col-md-4 col-sm-12 text-center"><%= fiche.intitule %></p>
@@ -212,9 +222,9 @@
         <form id="filtreForm" class="d-flex flex-column gap-2" method="get">
           <label for="offre">Filtrer par offre de poste: </label>
           <select name="offre" id="offre">
-            <option value="all">Toutes les offres</option>
+            <option value="" <%= !filters ? 'selected' : '' %>>Toutes les offres</option>
             <% offres.forEach((offre)=> { %>
-              <option value="<%= offre.numero_offre %>">
+              <option value="<%= offre.numero_offre %>" <%= String(filters) === String(offre.numero_offre) ? 'selected' : '' %>>
                 <%= offre.intitule %>
               </option>
               <% }) %>
@@ -227,90 +237,40 @@
     <!-- main -->
     <main class="flex-grow-1 p-3 col-sm-8 col-md-9 col-lg-10">
       <div id="CandidatureItem"
-        class="w-100 bg-dark p-2 rounded text-white d-flex flex-column justify-content-between px-4">
-        <div id="CandidatureTitle" class="row w-100 m-1 align-items-center">
-          <p id="intitulé" class="col">intitulé</p>
-          <p id="nom1" class="col">statut poste</p>
-          <p " class="col">responsable</p>
-          <p  class="col">rythme</p>
-          <p  class="col">salaire</p>
-          <p  class="col">lieu</p>
-          <p  class="col">type métier</p>
+        class="w-100 bg-secondary p-1 rounded text-white d-flex flex-column justify-content-between px-4 mb-2">
+        <div id="CandidatureTitle" class="row w-100 m-1 align-items-center gap-2">
+          <p class="col-1">intitulé offre</p>
+          <p class="col-2">email Candidat</p>
+          <p  class="col-1">prenom</p>
+          <p  class="col-1">nom</p>
+          <p  class="col-1">tel</p>
+          <p  class="col-1">date fin offre</p>
 
 
-          <button class="btn btn-primary col mx-2">Telecharger</button>
-          <button class="btn btn-primary col mx-2">Voir offre</button>
+          <button class="btn btn-primary col-2 mx-2" disabled>Telecharger</button>
+          <button class="btn btn-primary col-2 mx-2" disabled>Voir l'offre</button>
         </div>
       </div>
+      <% candidatures.forEach((candidature) => { %>
+        <div id="CandidatureItem<%= candidature.numero_candidature %>" class="mb-2 w-100 bg-dark p-1 rounded text-white d-flex flex-column justify-content-between px-4 ">
+          <div id="CandidatureTitle<%= candidature.numero_candidature %>" class="row w-100 m-1 align-items-center gap-2">
+            <p class="col-1"><%= candidature.intitule %></p>
+            <p class="col-2"><%= candidature.email %></p>
+            <p class="col-1"><%= candidature.prenom %></p>
+            <p class="col-1"><%= candidature.nom %></p>
+            <p class="col-1"><%= candidature.tel %></p>
+            <p class="col-1"><%= new Date(candidature.date_validite).toLocaleDateString() %></p>
 
-
-      <!-- <div> -->
-        <!-- <% offres.forEach((offre)=> { %>
-          <option value="<%= offre.numero_offre %>">
-            <%= offre.intitule %>
-          </option>
-          <% }) %> -->
-
-            <!-- <table class="table table-striped">
-              <thead class="thead-dark">
-                <tr>
-                  <th>intitulé</th>
-                  <th>statut_poste</th>
-                  <th>responsable</th>
-                  <th>rythme</th>
-                  <th>salaire</th>
-                  <th>lieu</th>
-                  <th>TypeMetier</th>
-
-                </tr>
-              </thead>
-              <tbody>
-                <% offres.forEach((offre)=> { %>
-                  <tr>
-                    <td>
-                      <%= offre.intitule%>
-                    </td>
-                    <td>
-                      <%= offre.statut_poste%>
-                    </td>
-                    <td>
-                      <%= offre.responsable%>
-                    </td>
-                    <td>
-                      <%= offre.rythme%>
-                    </td>
-                    <td>
-                      <%= offre.salaire%>
-                    </td>
-                    <td>
-                      <%= offre.lieu%>
-                    </td>
-                    <td>
-                      <%= offre.TypeMetier%>
-                    </td>
-
-                  </tr>
-                   -->
-                    
-                      <!-- <%= offre.description%> -->
-                    
-
-<!--                   
-                  <% }) %>
-              </tbody>
-            </table>
-
-
-
-
-
-      </div> -->
+            <button class="btn btn-primary col-2">Telecharger</button>
+            <a href="/candidature?id=<%= candidature.numero_offre %>" class="btn btn-primary col-2" target="_blank">Voir l'offre</a>
+          </div>
+        </div>
+      <% }) %>
+      <!-- TODO : ajouter la liste des candidatures a des offres appartenant au recruteur -->
 
       
   </div>
   </div>
-
-
   </main>
   </div>
 </body>
