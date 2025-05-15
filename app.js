@@ -67,6 +67,30 @@ app.all("*", function (req, res, next) {
 });
 
 
+app.post('/login', (req, res) => {
+  console.log("todo // Vérification des informations d'identification de l'utilisateur")
+  // if (req.body.username === 'user' && req.body.password === pwd) {
+
+  if (true) {
+    // Création d'une session utilisateur
+    session.creatSession()
+
+    console.log(req.session) //BUG req.session non def 
+    req.session.user = req.body.username;
+
+
+    // Ajouter le rôle aussi dans la session
+    req.session.role = 'user';
+    res.send('Authentification réussie !');
+  } else {
+    res.send('Nom d\'utilisateur ou mot de passe incorrect.');
+  }
+});
+
+
+
+
+
 
 // app.use('/', indexRouter);
 
