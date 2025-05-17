@@ -2,6 +2,7 @@ var sessions = require("express-session");
 
 module.exports = {
     init: () => {
+        console.log("session.js.init()")
         return sessions({
             secret: "unSecretPourTester",
             saveUninitialized: true,

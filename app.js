@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 // const session = require('express-session');
-var session = require('./session');
+const session = require('./session');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -44,8 +44,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 // }));
 
 
+console.log("app.use(session.init())")
+app.use(session.init()) // session.init() retourne un objet session (sera attaché à req)
+
+
 // check user before app.use (path, router)
 app.all("*", function (req, res, next) {
+  console.log("app.all()")
+  console.log(req.session)
   const nonSecurePaths = ["/login", "/signup"];
   const adminPaths = ["/admin"]; //list des urls admin
   if (nonSecurePaths.includes(req.path)) {
@@ -68,20 +74,21 @@ app.all("*", function (req, res, next) {
 
 
 app.post('/login', (req, res) => {
-  console.log("todo // Vérification des informations d'identification de l'utilisateur")
+  console.log("app.post() todo // Vérification des informations d'identification de l'utilisateur")
+  console.log(req.body)
   // if (req.body.username === 'user' && req.body.password === pwd) {
 
   if (true) {
     // Création d'une session utilisateur
-    session.creatSession()
+    session.creatSession(req.session,req.body.email,'user')
 
     console.log(req.session) //BUG req.session non def 
-    req.session.user = req.body.username;
+    // req.session.user = req.body.username;
 
 
     // Ajouter le rôle aussi dans la session
-    req.session.role = 'user';
-    res.send('Authentification réussie !');
+    // req.session.role = 'user';
+    res.send(req.body.email+' (user) :Authentification réussie !');
   } else {
     res.send('Nom d\'utilisateur ou mot de passe incorrect.');
   }
