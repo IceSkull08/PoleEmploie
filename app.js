@@ -53,7 +53,7 @@ app.all("*", function (req, res, next) {
   console.log("app.all()")
   console.log(req.session)
   const nonSecurePaths = ["/login", "/signup"];
-  const adminPaths = ["/admin"]; //list des urls admin
+  const adminPaths = ["/admin","/admins"]; //list des urls admin
   if (nonSecurePaths.includes(req.path)) {
     console.log("debug non secure path")
     return next();}
@@ -72,34 +72,34 @@ app.all("*", function (req, res, next) {
   }
 });
 
+// deplacé dans routes/login.js
+// app.post('/login', (req, res) => {
+//   console.log("app.post() todo // Vérification des informations d'identification de l'utilisateur")
+//   console.log(req.body)
+//   // if (req.body.username === 'user' && req.body.password === pwd) {
 
-app.post('/login', (req, res) => {
-  console.log("app.post() todo // Vérification des informations d'identification de l'utilisateur")
-  console.log(req.body)
-  // if (req.body.username === 'user' && req.body.password === pwd) {
+//   if (true) {
+//     // Création d'une session utilisateur
+//     session.creatSession(req.session,req.body.email,'user')
 
-  if (true) {
-    // Création d'une session utilisateur
-    session.creatSession(req.session,req.body.email,'user')
-
-    console.log(req.session) //BUG req.session non def 
-    // req.session.user = req.body.username;
-
-
-    // Ajouter le rôle aussi dans la session
-    // req.session.role = 'user';
-    res.send(req.body.email+' (user) :Authentification réussie !');
-  } else {
-    res.send('Nom d\'utilisateur ou mot de passe incorrect.');
-  }
-});
+//     console.log(req.session) //BUG req.session non def 
+//     // req.session.user = req.body.username;
 
 
+//     // Ajouter le rôle aussi dans la session
+//     // req.session.role = 'user';
+//     res.send(req.body.email+' (user) :Authentification réussie !');
+//   } else {
+//     res.send('Nom d\'utilisateur ou mot de passe incorrect.');
+//   }
+// });
 
 
 
 
-// app.use('/', indexRouter);
+
+
+app.use('/', indexRouter);
 
 // app.get('/', (req, res) => {
 //   session = req.session;

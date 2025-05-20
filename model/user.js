@@ -26,9 +26,10 @@ module.exports = {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback(null, false);
+                return callback(true, null);
             }
-            return callback(null, true);
+            return callback(false,results);
+            // return callback(null, true);
         });
     },
     create: function (email, password, nom, prenom, tel, date_creation, statut_compte, role_utilisateur, callback) {
