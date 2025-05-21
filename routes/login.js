@@ -1,6 +1,6 @@
 var express = require('express');
 // var session = require('express-session');
-const session = require('../session');
+const session = require('../session.js');
 const userModel = require('../model/user.js')
 
 var router = express.Router();
@@ -25,12 +25,15 @@ router.post('/', (req, res) => {
     console.log('areValide error=')
     console.log(err);
     if (!err) {
-      console.log(result[0].role_utilisateur);
+      //console.log(result[0].role_utilisateur);
+      console.log(result[0]);
       // Création d'une session utilisateur ou admin
-      session.creatSession(req.session, req.body.email, result[0].role_utilisateur);
+      session.creatSession(req.session, req.body.email, result[0]);
       console.log(req.session) 
 
-      res.send(":Authentification réussie "+result[0].role_utilisateur)
+      //res.send(":Authentification réussie "+result[0].role_utilisateur)
+      res.status(200)
+      res.redirect("/users")
       
     }
     else {
