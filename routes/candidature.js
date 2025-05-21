@@ -45,11 +45,11 @@ router.post('/', (req, res, next) => {
       const uploadedFiles = Array.isArray(files.fichiers) ? files.fichiers : [files.fichiers];
 
       if (uploadedFiles.length !== maxFiles) {
-        uploadedFiles.forEach(file => fs.unlinkSync(file.filepath)); // supprimer les fichiers temporaires en cas d'erreur
+        uploadedFiles.forEach(file => fs.unlinkSync(file.filepath)); // supprimer les fichiers temporaires si probleme
         return res.status(400).send(`Vous devez envoyer exactement ${maxFiles} fichier(s).`);
       }
 
-      // déplace et renomme les fichiers
+      // déplace et renomme les fichiers si pas probleme
       uploadedFiles.forEach(file => {
         const ext = path.extname(file.originalFilename);
         const base = path.basename(file.originalFilename, ext);

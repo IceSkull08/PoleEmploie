@@ -44,6 +44,24 @@ router.get('/createUser', function (req, res, next) {
   res.render('createUser', { title: 'création compte' });
 });
 
+router.post('/login', function (req, res, next) {
+  const email = String(req.body.email);
+  const password = String(req.body.password);
+  console.log("login : " + email);
+  console.log("password : " + password);
+  result = userModel.areValide(email, password, function (err, result) {
+    if (err) return next(err);
+    if (result) {
+      console.log("login de " + email + " ok")
+      res.send("user " + email + " connecté");
+    }
+    else {
+      console.log("erreur login de " + email);
+      return;
+    }
+  });
+});
+
 router.post('/createUser', function (req, res, next) {
   // res.render('createUser', { title: 'création compte' });
   const nom = req.body.nom;

@@ -32,19 +32,6 @@ router.post('/add-offre', function (req, res, next) {
   });
 });
 
-
-// router.get('/', function(req, res, next) {
-//   poste.readFicheDePosteOrg('000000000', (err, fiches) => { //req.session.user.siren
-//     if (err) return next(err);
-//     console.log(fiches);
-//     poste.readRecreuiterOffre('marie.lefevre@example.com', (err, offres) => { //req.session.user.email
-//       if (err) return next(err);
-//       // console.log(offres);
-//       res.render('recruiter', { offres, fiches });
-//     });
-//   });
-// });
-
 router.get('/', function (req, res, next) {
   const filters = req.query.offre?.trim();
   poste.filterCandidature(filters, (err, candidatures) => {
@@ -64,6 +51,8 @@ router.get('/', function (req, res, next) {
   });
 });
 
+
+// dl les fichier de candidature dans un fichier zip 
 router.get('/download/:email/:id', (req, res, next) => {
   const email = req.params.email.replace(/[@.]/g, '_');
   const id = req.params.id;
