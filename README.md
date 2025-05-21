@@ -2,6 +2,14 @@
 
 - model/db.js : copier db.js__LOCALE__ (et creer une base locale avec /sqlFiles/sr10...sql) ou copier db.js__TUXA1__ ou db.js__TUXA2__ pour accéder à la base de l'UTC
 
+# connexion
+exemples d'utilisateurs pour tester:
+
+admin@gmail.com  password: admin
+util@gmail.com  password: util
+
+
+
 
 # tester
 
