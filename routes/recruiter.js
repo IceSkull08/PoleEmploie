@@ -33,6 +33,10 @@ router.post('/add-offre', function (req, res, next) {
 });
 
 router.get('/', function (req, res, next) {
+  const info = {
+    nom : req.session.nom,
+    prenom : req.session.prenom
+  }
   const filters = req.query.offre?.trim();
   poste.filterCandidature(filters, (err, candidatures) => {
     if (err) return next(err);
@@ -44,7 +48,7 @@ router.get('/', function (req, res, next) {
         poste.readRecruiterOffre('marie.lefevre@example.com', (err, offres) => { //req.session.user.email
           if (err) return next(err);
           // console.log(offres);
-          res.render('recruiter', { offres, fiches, candidatures, filters });
+          res.render('recruiter', { offres, fiches, candidatures, filters, info });
         });
       });
     });    

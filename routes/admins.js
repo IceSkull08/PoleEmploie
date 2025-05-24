@@ -9,14 +9,20 @@ router.get('/', function(req, res, next) {
     if ( filters.element===undefined) {
         filters.element='all';
     }
-    console.log("element :",filters);
+
+    const info = {
+        nom : req.session.nom,
+        prenom : req.session.prenom
+      }
+    
+    console.log("routes/admin element :",filters, " info",info);
     
     user.filterRead(filters, (err, liste) => {
         if(err) return next(err);
-        console.log(liste);
+        // console.log(liste);
         // res.render('admin', { liste, filters });
         // res.render('admin', { title: 'Liste des utilisateurs simples', users: result,selection });
-        res.render('admin', { title: 'Liste des utilisateurs simples', users: liste, filters});
+        res.render('admin', { title: 'Liste des utilisateurs simples', users: liste, filters,info});
     });
 });
 

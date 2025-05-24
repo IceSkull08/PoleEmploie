@@ -14,6 +14,8 @@ module.exports = {
         session.userid = result.email;
         session.role = result.role_utilisateur;
         session.org = result.organisation;
+        session.nom = result.nom;
+        session.prenom = result.prenom;
         session.save(function (err) {
             console.log(err);
         });
