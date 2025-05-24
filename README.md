@@ -6,7 +6,8 @@
 exemples d'utilisateurs pour tester:
 
 admin@gmail.com  password: admin
-util@gmail.com  password: util
+util@gmail.com  password: util ou user@...
+recrut@gmail.com password: recrut
 
 
 
