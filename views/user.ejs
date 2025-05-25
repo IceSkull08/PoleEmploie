@@ -7,6 +7,42 @@
   <link rel="stylesheet" href="css/user.css" />
   <title>User Page</title>
 </head>
+
+<!-- modal demande de création d'organisation -->
+<div class="modal fade" id="ModalCreationOrganisation" tabindex="-1" aria-labelledby="cOrganisationModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cOrganisationModalLabel">Demande de création d'organisation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/user/add-org">
+          <div class="mb-3">
+            <label for="intitule" class="form-label">Siren Organisation</label>
+            <input type="number" class="form-control" id="siren" name="siren" pattern="\d{9,9}" required>
+          </div>
+          <div class="mb-3">
+            <label for="nom" class="form-label">Nom de l'organisation</label>
+            <input type="text" class="form-control" id="nom" name="nom" required>
+          </div>
+          <div class="mb-3">
+            <label for="typeEntreprise" class="form-label">Statut de l'entreprise</label>
+            <input type="text" placeholder="SARL, Eurl, SASU, ..." class="form-control" id="type" name="type" required>
+          </div>
+          <div class="mb-3">
+            <label for="siege" class="form-label">Siege Social</label>
+            <input type="text" class="form-control" id="siege" name="siege" required></input>
+          </div>
+          <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <body class="d-flex flex-column min-vh-100">
 
 <!-- HEADER -->
@@ -34,7 +70,8 @@
 
       <div id="filtre" class="d-flex flex-column gap-2 w-100">
         <div id="boutonOrg" class="d-flex gap-2 w-100">
-          <button class="btn btn-primary w-50" id="createOrg">Créer une organisation</button>
+          <button class="btn btn-primary w-50" id="createOrg" data-bs-toggle="modal"
+            data-bs-target="#ModalCreationOrganisation">Créer une organisation</button>
           <a href="organisation" class="btn btn-primary w-50 text-center align-self-start">Liste des organisations</a>
         </div>
         <form id="filtreForm" class="d-flex flex-column gap-2" method="get">

@@ -21,3 +21,7 @@ recruteur
     voir mes offres
 
 finir test model user
+
+
+finir la création d'orgnaisation (modal fait, faire la route + les fonctions pour la bdd) => demande d'org = état 0 , accepté = état 1
+modifier la bdd pour demande admin + demande recruteur

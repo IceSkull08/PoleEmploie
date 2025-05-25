@@ -44,23 +44,31 @@ app.use(express.static(path.join(__dirname, 'public')));
 // }));
 
 
-console.log("app.use(session.init())")
+console.log("debug : app.use(session.init())")
 app.use(session.init()) // session.init() retourne un objet session (sera attaché à req)
 
 
 // check user before app.use (path, router)
 app.all("*", function (req, res, next) {
-  console.log("app.all()")
+  console.log("debug : app.all()")
   console.log(req.session)
   const nonSecurePaths = ["/login", "/signup"];
-  const adminPaths = ["/admin","/admins"]; //list des urls admin
+  const adminPaths = ["/admins"]; //list des urls admin
+  const recruterPaths = ["/recruiter"];
   if (nonSecurePaths.includes(req.path)) {
     console.log("debug non secure path")
     return next();}
   //authenticate user
   if (adminPaths.includes(req.path)) {
-    console.log("debug admin path")
+    console.log("debug admin path");
     if (session.isConnected(req.session, "admin")) return next();
+    else
+      res
+        .status(403)
+        .render("error", { message: " Unauthorized access", error: {} });
+  }else if (recruterPaths.includes(req.path)) {
+    console.log("debug recruter path");
+    if (session.isConnected(req.session, "recruteur")) return next();
     else
       res
         .status(403)

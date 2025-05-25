@@ -25,12 +25,16 @@ router.post('/', (req, res) => {
     console.log('areValide error=')
     console.log(err);
     if (!err) {
-      console.log(result[0].role_utilisateur);
-      // Création d'une session utilisateur ou admin
-      session.creatSession(req.session, req.body.email, result[0].role_utilisateur);
-      console.log(req.session) 
+      console.log("resultat arevalide : ", result[0]);
 
-      res.send(":Authentification réussie "+result[0].role_utilisateur)
+      // Création d'une session utilisateur ou admin
+      session.creatSession(req.session, req.body.email, result[0]);
+
+      console.log("req session : ", req.session) 
+
+      // res.send(":Authentification réussie "+result[0].role_utilisateur)
+      res.status(200);
+      res.redirect('/users'); 
       
     }
     else {
@@ -39,7 +43,6 @@ router.post('/', (req, res) => {
     }
 
   });
-  console.log("test")
 
 });
 
