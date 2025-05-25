@@ -33,6 +33,7 @@ module.exports = {
         });
     },
     create: function (email, password, nom, prenom, tel, date_creation, statut_compte, role_utilisateur, callback) {
+    //ATTENTION !!!!!!!!!! OBSOLETTE : UTILISER CREATEUSER !!!!!
         db.query('INSERT INTO UTILISATEUR (email, mdp, nom, prenom, tel, date_creation, statut_compte, role_utilisateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [email, password, nom, prenom, tel, date_creation, statut_compte, role_utilisateur], function (err) {
             if (err) {
                 return callback(err);

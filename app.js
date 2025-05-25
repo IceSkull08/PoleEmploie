@@ -52,7 +52,7 @@ app.use(session.init()) // session.init() retourne un objet session (sera attach
 app.all("*", function (req, res, next) {
   console.log("app.all()")
   console.log(req.session)
-  const nonSecurePaths = ["/login", "/signup", "/logout"];
+  const nonSecurePaths = ["/login", "/signup", "/logout","/users/createUser"];
   const adminPaths = ["/admin", "/admins"]; //list des urls admin
   const recrutPath = ["/recruiter"];
   if (nonSecurePaths.includes(req.path)) {
