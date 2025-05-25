@@ -32,7 +32,7 @@ module.exports = {
             // return callback(null, true);
         });
     },
-    create: function (email, password, nom, prenom, tel, date_creation, statut_compte, role_utilisateur, callback) {
+    OLD_create: function (email, password, nom, prenom, tel, date_creation, statut_compte, role_utilisateur, callback) {
     //ATTENTION !!!!!!!!!! OBSOLETTE : UTILISER CREATEUSER !!!!!
         db.query('INSERT INTO UTILISATEUR (email, mdp, nom, prenom, tel, date_creation, statut_compte, role_utilisateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [email, password, nom, prenom, tel, date_creation, statut_compte, role_utilisateur], function (err) {
             if (err) {
@@ -186,9 +186,13 @@ module.exports = {
         ],
             function (err, results) {
                 if (err) {
-                    // throw err;
-                    console.log(err)
+                    
+                    console.log('(model/user.js) createUser() 1erreur',err)
+                    
                     callback(false)
+                    // throw err;
+                    // throw new Error("pb");// ne fonctionne pas, recapturé ici
+                    
                 }
                 else 
                     callback(true);
