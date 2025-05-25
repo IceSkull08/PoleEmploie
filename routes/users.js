@@ -76,7 +76,7 @@ router.post('/createUser', function (req, res, next) {
   const password = req.body.password;
   const tel = req.body.tel;
 
-  // console.log("création de "+nom);
+  console.log("création de "+nom+" pass="+password);
   // createUser: function (email, nom, prenom, tel, mdp,  callback) {
   try {
     result = userModel.createUser(email, nom, prenom, tel, password, function (result) {
