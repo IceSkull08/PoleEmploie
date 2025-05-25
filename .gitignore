@@ -3,3 +3,4 @@ model/temp.js
 node_modules/
 coverage/
 ./TODO
+uploads/

@@ -11,9 +11,11 @@ module.exports = {
         });
     },
     creatSession: function (session, mail, result) {
-        session.userid = mail;
+        session.userid = result.email;
         session.role = result.role_utilisateur;
         session.org = result.organisation;
+        session.nom = result.nom;
+        session.prenom = result.prenom;
         session.save(function (err) {
             console.log(err);
         });

@@ -52,9 +52,8 @@ app.use(session.init()) // session.init() retourne un objet session (sera attach
 app.all("*", function (req, res, next) {
   console.log("debug : app.all()")
   console.log(req.session)
-  const nonSecurePaths = ["/login", "/signup"];
-  const adminPaths = ["/admins"]; //list des urls admin
-  const recruterPaths = ["/recruiter"];
+  const nonSecurePaths = ["/login", "/signup","/logout"];
+  const adminPaths = ["/admin","/admins"]; //list des urls admin
   if (nonSecurePaths.includes(req.path)) {
     console.log("debug non secure path")
     return next();}
@@ -126,6 +125,12 @@ app.get('/profil', (req, res) => {
     res.redirect('/login');
   }
 });
+
+app.get('/logout',(req,res) => {
+  req.session.destroy();
+  console.log("session detruite",session);
+  res.redirect('/login');
+  });
 
 app.use('/users', usersRouter);
 app.use('/admins', adminsRouter);

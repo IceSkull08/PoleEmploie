@@ -18,6 +18,11 @@ router.get('/', function(req, res, next) {
     salaireMax: req.query.salaireMax,
   };
 
+  const info = {
+    nom : req.session.nom,
+    prenom : req.session.prenom
+  }
+
   console.log(req.query)
   console.log("date :",filters.date),
   console.log("location :", filters.location),
@@ -25,6 +30,7 @@ router.get('/', function(req, res, next) {
   console.log("company : ", filters.company),
   console.log("salaireMin :", filters.salaireMin),
   console.log("salaireMax :", filters.salaireMax);
+  console.log("info",info);
 
 
   poste.filter(filters, (err, offres) => {
@@ -33,7 +39,7 @@ router.get('/', function(req, res, next) {
     organisation.readall((errOrg, organisations) => {
       if(errOrg) return next(errOrg);
       // console.log(organisations);
-      res.render('user', { offres, filters, organisations });
+      res.render('user', { offres, filters, organisations,info });
     });
 });
 });

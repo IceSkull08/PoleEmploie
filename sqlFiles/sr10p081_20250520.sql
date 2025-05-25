@@ -174,6 +174,8 @@ INSERT INTO `UTILISATEUR` (`email`, `mdp`, `nom`, `prenom`, `tel`, `date_creatio
 ('test@test.fr', '123', 'test', 'toto', '1234567890', '2023-10-01', 'inactif', '987654321', 'utilisateur'),
 ('admin@gmail.com', 'admin', 'BONNEAU', 'Jean', '1234567890', '2023-10-01', 'actif', '987654321', 'admin'),
 ('util@gmail.com', 'util', 'TOUILLE', 'Sacha', '1234567890', '2023-10-01', 'actif', '987654321', 'utilisateur'),
+('user@gmail.com', 'user', 'CAPE', 'Andy', '1234567890', '1990-02-11', 'actif', '112233445', 'utilisateur'),
+('recrut@gmail.com', 'recrut', 'ONNETTE', 'Camille', '1234567890', '2000-10-21', 'actif', '987654321', 'recrutuer'),
 ('test@gmail.com', 'newpassword', 'Test', 'User', '1234567890', '2023-10-01', 'inactif', '987654321', 'admin');
 
 --

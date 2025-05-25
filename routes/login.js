@@ -1,6 +1,6 @@
 var express = require('express');
 // var session = require('express-session');
-const session = require('../session');
+const session = require('../session.js');
 const userModel = require('../model/user.js')
 
 var router = express.Router();
@@ -17,7 +17,7 @@ router.get('/', function (req, res, next) {
 
 
 router.post('/', (req, res) => {
-  console.log("app.post() todo // Vérification des informations d'identification de l'utilisateur")
+  console.log("app.post()  Vérification des informations d'identification de l'utilisateur")
   console.log(req.body)
 
   // areValide: function (email, password, callback) 
