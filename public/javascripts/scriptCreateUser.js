@@ -16,7 +16,17 @@ async function generateSHA256Hash(data) {
 
 	// console.log(hashHex);
     passe_hache = hashHex;
+    
     return hashHex;
+}
+
+async function  passHash(passw){
+    hashP = await generateSHA256Hash(passw);
+    console.log("passHash")
+    console.log(hashP)
+    password.value=hashP;
+    return hashP;
+
 }
 
 // Test the function with some inputs
@@ -71,16 +81,23 @@ function verifForm() {  // pb si async = retour imédiat => impossible bloquer l
     hashPwd="tmp"
     // hashPwd= await generateSHA256Hash(password.value); //non si verifForm n'est pas async 
     // hashPwd = crypto.createHash('sha1').update(password.value).digest('hex');
-    promise_pwd =  generateSHA256Hash(password.value);
-    promise_pwd.then( (result)=>{
-        console.log('result ',result);    
-        hashPwd=result;
+    // promise_pwd =  generateSHA256Hash(password.value);
+    // promise_pwd.then( (result)=>{
+    //     console.log('result ',result);    
+    //     hashPwd=result;
 
-    });
+    // }).catch(console.log.bind(console));;
 
-    console.log('passe haché ',hashPwd);
+    // hashPwd = passHash(password.value);
+
+    // console.log('passe haché ',hashPwd);
     // password.value = hashPwd;
-    password.value =passe_hache;
+    // hashPwd =passe_hache.then((result)=>{
+    //     console.log("result2");
+    //     console.log(result);
+    // }).catch(console.log("erreur catch"));
+    // password.value=hashPwd;
+    passHash(password.value);
     console.log('password.value ',password.value);
 
     // alert("debug bloqué"); 
