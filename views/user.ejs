@@ -53,9 +53,16 @@
       <button class="btn btn-primary" type="submit">Search</button>
     </form>
     <div class="d-flex gap-2 align-items-center">
-      <span> <%=info.nom%> <%=info.prenom%></span>
-      <a href="/logout"><button class="btn btn-primary">Logout</button></a>
-    </div>
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <%=info.nom%> <%=info.prenom%>
+        </button>
+        <ul class="dropdown-menu">
+          
+          <li><a class="dropdown-item" href="#">Mon compte</a></li>
+          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+        </ul>
+      </div>
   </header>
 
 <!-- contenue de la page-->

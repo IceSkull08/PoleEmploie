@@ -54,6 +54,7 @@ app.all("*", function (req, res, next) {
   console.log(req.session)
   const nonSecurePaths = ["/login", "/signup","/logout"];
   const adminPaths = ["/admin","/admins"]; //list des urls admin
+  const recruterPaths = ["/recruiter"]; //list des urls recruteur
   if (nonSecurePaths.includes(req.path)) {
     console.log("debug non secure path")
     return next();}

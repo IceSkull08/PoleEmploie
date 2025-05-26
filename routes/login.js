@@ -14,8 +14,6 @@ router.get('/', function (req, res, next) {
   res.render('login', { title: 'login' });
 });
 
-
-
 router.post('/', (req, res) => {
   console.log("app.post()  Vérification des informations d'identification de l'utilisateur")
   console.log(req.body)
@@ -45,8 +43,6 @@ router.post('/', (req, res) => {
   });
 
 });
-
-
 
 
 module.exports = router;
