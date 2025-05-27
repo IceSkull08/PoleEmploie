@@ -1,3 +1,4 @@
+const { search } = require('../routes/recruiter.js');
 var db = require('./db.js');
 
 module.exports = {
@@ -17,8 +18,9 @@ module.exports = {
             return callback(null, results);
         });
     },
-    create: function (siren, nom, type_entreprise, siege_social, callback) {
-        db.query('INSERT INTO ORGANISATION (siren, nom, type_entreprise, siege_social) VALUES (?, ?, ?, ?)', [siren, nom, type_entreprise, siege_social], function (err) {
+    create: function (siren, nom, type_entreprise, siege_social, etat, callback) {
+        console.log("debug : Création organisation : ");
+        db.query('INSERT INTO ORGANISATION (siren, nom, type_entreprise, siege_social, etat) VALUES (?, ?, ?, ?, ?)', [siren, nom, type_entreprise, siege_social, etat], function (err) {
             if (err) {
                 return callback(err);
             }
@@ -47,6 +49,16 @@ module.exports = {
                 return callback(err);
             }
             return callback(null);
+        });
+    },
+    search: function (searchTerm, callback) {
+        const query = 'SELECT * FROM ORGANISATION WHERE nom LIKE ? OR siren LIKE ? OR siege_social LIKE ? OR type_entreprise LIKE ?';
+        const searchPattern = `%${searchTerm}%`;
+        db.query(query, [searchPattern, searchPattern, searchPattern, searchPattern], function (err, results) {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null, results);
         });
     }
 };
