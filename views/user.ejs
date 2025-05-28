@@ -43,6 +43,47 @@
 </div>
 
 
+<!-- modal demande recruteur  -->
+ <div class="modal fade" id="ModalCreationRecruteur" tabindex="-1" aria-labelledby="demandeRecruteurModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="demandeRecruteurModalLabel">Demande de role recruteur</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/users/add-recruteur">
+          <div class="mb-3">
+            <label for="organisationDemandeRecruteur" class="form-label">Nom de l'organisation</label>
+            <select class="form-select" id="organisationDemandeRecruteur" name="organisationDemandeRecruteur" required>
+              <option value="" disabled selected>Choisir l'organisation</option>
+              <% organisations.forEach((orga)=> { %>
+                <option value="<%= orga.siren %>">
+                  <%= orga.nom %>
+                </option>
+                <% }) %>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="sirenDemandeRecruteur" class="form-label">Siren de l'organisation</label>
+            <select class="form-select" id="sirenDemandeRecruteur" name="sirenDemandeRecruteur" required>
+              <option value="" disabled selected>Choisir le siren</option>
+              <% organisations.forEach((orga)=> { %>
+                <option value="<%= orga.siren %>">
+                  <%= orga.siren %>
+                </option>
+                <% }) %>
+            </select>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <body class="d-flex flex-column min-vh-100">
 
 <!-- HEADER -->
@@ -71,7 +112,12 @@
 <!-- Nav (filtres)-->
     <nav class="bg-dark text-white p-3 col-sm-4 col-md-3 col-lg-2">
       <div id="roleChoice" class="w-100 d-inline-flex justify-content-center gap-2 pt-2 pb-5">
-        <a href="recruiter" class="btn btn-primary w-50 text-center align-self-start">Recruteur</a>
+        <% if (info.role !== 'recruteur') {  %>
+          <button class="btn btn-primary w-50 text-center align-self-start" id="createRecruteur" data-bs-toggle="modal"
+            data-bs-target="#ModalCreationRecruteur">Recruteur</button>
+        <% } else { %>
+          <a href="recruiter" class="btn btn-primary w-50 text-center align-self-start">Recruteur</a>
+        <% } %>
         <a href="admins" class="btn btn-primary w-50 text-center align-self-start">Admin</a>
       </div>
 
@@ -195,6 +241,20 @@
     document.getElementById('searchHidden').value = searchValue;
     document.getElementById('filtreForm').submit();
   } 
+
+  const organisationRecruteur = document.getElementById('organisationDemandeRecruteur');
+  const sirenRecruteur = document.getElementById('sirenDemandeRecruteur');
+
+  organisationRecruteur.addEventListener('change', (event) => {
+    sirenRecruteur.value = event.target.value;
+    console.log("Organisation changed to:", event.target.value);
+  });
+
+  sirenRecruteur.addEventListener('change', (event) => {
+    organisationRecruteur.value = event.target.value;
+    console.log("Siren changed to:", event.target.value);
+  });
+
   </script>
 </body>
 </html>

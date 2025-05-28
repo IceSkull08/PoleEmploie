@@ -195,28 +195,34 @@ module.exports = {
         );
     }, 
     
-    createTable: function (callback) {
-
-        sql = `CREATE TABLE UTILISATEUR ( 
-            email varchar(50) NOT NULL, 
-            mdp varchar(255) NOT NULL,  
-            nom varchar(20) NOT NULL, 
-            prenom varchar(20) NOT NULL,
-            tel varchar(20) NOT NULL,
-            date_creation date NOT NULL,
-            statut_compte enum('actif', 'inactif') NOT NULL,
-            organisation int(11) DEFAULT NULL,
-            role_utilisateur enum('utilisateur', 'recruteur', 'admin') NOT NULL
-            );`
-
-        db.query(sql,
-            function (err, results) {
-                if (err) throw err;
-                callback(true);
-
+    demandeRecruteur: function (email, siren, callback) {
+        sql = `UPDATE UTILISATEUR SET demande = 'recruteur', organisation = ? WHERE email = ?;`;
+        db.query(sql, [siren, email], function (err) {
+            if (err) {
+                console.log(err);
+                return callback(err);
             }
-        
-        );
-
+            return callback(null);
+        });
+    },
+    supprimerDemandeRecruteur: function (email, callback) {
+        sql = `UPDATE UTILISATEUR SET demande = NULL, organisation = NULL WHERE email = ?;`;
+        db.query(sql, [email], function (err) {
+            if (err) {
+                console.log(err);
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+    accepterDemandeRecruteur: function (email, callback) {
+        sql = `UPDATE UTILISATEUR SET role_utilisateur = 'recruteur', demande = NULL WHERE email = ?;`;
+        db.query(sql, [email], function (err) {
+            if (err) {
+                console.log(err);
+                return callback(err);
+            }
+            return callback(null);
+        });
     }
 }

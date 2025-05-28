@@ -1,6 +1,4 @@
 var db = require('./db.js');
-var user = require('./user.js');
-var organisation = require('./organisation.js');
 
 module.exports = {
     // permet de lire toutes les offres d'emploi

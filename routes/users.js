@@ -18,7 +18,8 @@ router.get('/', function(req, res, next) {
 
   const info = {
     nom : req.session.nom,
-    prenom : req.session.prenom
+    prenom : req.session.prenom,
+    role : req.session.role
   }
 
   console.log(req.query)
@@ -104,6 +105,18 @@ router.post('/add-org', function (req, res, next) {
   console.log("siege : " + siege);
   console.log("etat : " + etat);
   organisation.create(siren, nom, type, siege,etat, (err) => {
+    if (err) return next(err);
+    res.redirect('/users');
+  });
+});
+
+router.post('/add-recruteur', function (req, res, next) {
+  const siren = req.body.sirenDemandeRecruteur;
+  const email = req.session.userid;
+  console.log("debug : Création recruteur : ");
+  console.log("siren : " + siren);
+  console.log("email : " + email);
+  userModel.demandeRecruteur(email, siren, (err) => {
     if (err) return next(err);
     res.redirect('/users');
   });
