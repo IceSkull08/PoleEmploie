@@ -23,3 +23,7 @@ finir test model user
 modifier la bdd pour demande admin + demande recruteur
 
 accepter ou refuser la création d'organisation
+demande admin
+accepter/refuser demande role recruteur
+searchBar recruteur
+searchBar admin

@@ -61,4 +61,16 @@ router.post('/search', function (req, res, next) {
   });
 });
 
+router.post('/add-recruteur', function (req, res, next) {
+  const siren = req.body.sirenDemandeRecruteur;
+  const email = req.session.userid;
+  console.log("debug : Création recruteur : ");
+  console.log("siren : " + siren);
+  console.log("email : " + email);
+  userModel.demandeRecruteur(email, siren, (err) => {
+    if (err) return next(err);
+    res.redirect('/organisation');
+  });
+});
+
 module.exports = router;
