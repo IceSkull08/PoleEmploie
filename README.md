@@ -6,6 +6,8 @@
 exemples d'utilisateurs pour tester:
 
 admin@gmail.com  password: admin
+admin@utc.fr    password haché: admin
+
 util@gmail.com  password: util ou user@...
 recrut@gmail.com password: recrut
 

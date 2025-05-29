@@ -2,7 +2,11 @@ var express = require('express');
 var router = express.Router();
 const poste = require('../model/poste.js');
 const organisation = require('../model/organisation.js');
-const userModel = require('../model/user.js')
+const userModel = require('../model/user.js');
+
+// const hachageJS = require("../public/javascripts/md5.js") //TODO : deplacer en privé
+
+// const hachageJS = require("./TestMd5.js"); //TODO : deplacer en privé //deplacé dans model user
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -76,7 +80,12 @@ router.post('/createUser', function (req, res, next) {
   const password = req.body.password;
   const tel = req.body.tel;
 
-  console.log("création de "+nom+" pass="+password);
+  // console.log("createuser")
+  // console.log(hachageJS)
+  // hashPassword = hachageJS(password);//deplacé dans model user
+  // console.log("création de "+nom+" pass="+password," hach="+hashPassword);
+
+
   // createUser: function (email, nom, prenom, tel, mdp,  callback) {
   try {
     result = userModel.createUser(email, nom, prenom, tel, password, function (result) {
