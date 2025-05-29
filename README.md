@@ -9,8 +9,9 @@ admin@gmail.com  password: admin
 admin@utc.fr    password haché: admin
 
 util@gmail.com  password: util ou user@...
-recrut@gmail.com password: recrut
 
+recrut@gmail.com password: recrut
+recrut@utc.fr  = passe haché recrut
 
 
 
