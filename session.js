@@ -2,7 +2,7 @@ var sessions = require("express-session");
 
 module.exports = {
     init: () => {
-        console.log("session.js.init()")
+        // console.log("session.js.init()")
         return sessions({
             secret: "unSecretPourTester",
             saveUninitialized: true,
@@ -17,14 +17,14 @@ module.exports = {
         session.nom = result.nom;
         session.prenom = result.prenom;
         session.save(function (err) {
-            console.log(err);
+            // console.log(err);
         });
         return session;
     },
     isConnected: (session, role) => {
-        console.log(session) //debug
+        // console.log(session) //debug
         if (session=== undefined) {
-            console.log("pas de session ")
+            // console.log("pas de session ")
             return false;
         }
         if (session.userid === undefined || !session.userid ) return false;

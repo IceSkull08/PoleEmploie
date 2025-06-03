@@ -2,7 +2,7 @@ var index_actif=-1;
 var previousItem=null;
 
 function test(index){
-    console.log("test");
+    // console.log("test");
     index_actif=index
     // alert("test"+index+"ia="+index_actif+"offres="+result)
     // alert("test"+index)
@@ -16,7 +16,7 @@ function test(index){
 };
 
 function postuler(){
-    console.log("test postuler");
+    // console.log("test postuler");
 }
 
 // test();

@@ -263,12 +263,70 @@ module.exports = {
         bcrypt.hash(mdp, saltRounds).then((res) => {
             hashMdp = res;
             createUserSimple(email, nom, prenom, tel, hashMdp, callback);
-
-
-
         }).catch((err) => {
             console.log(err);
         });
-
+    },
+  
+    demandeRecruteur: function (email, siren, callback) {
+        sql = `UPDATE UTILISATEUR SET demande = 'recruteur', organisation = ? WHERE email = ?;`;
+        db.query(sql, [siren, email], function (err) {
+            if (err) {
+                // console.log(err);
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+    supprimerDemandeRecruteur: function (email, callback) {
+        sql = `UPDATE UTILISATEUR SET demande = NULL, organisation = NULL WHERE email = ?;`;
+        db.query(sql, [email], function (err) {
+            if (err) {
+                // console.log(err);
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+    accepterDemandeRecruteur: function (email, callback) {
+        sql = `UPDATE UTILISATEUR SET role_utilisateur = 'recruteur', demande = NULL WHERE email = ?;`;
+        db.query(sql, [email], function (err) {
+            if (err) {
+                // console.log(err);
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+    demandeAdmin: function (email, callback) {
+        sql = `UPDATE UTILISATEUR SET organisation = NULL, demande = 'admin' WHERE email = ?;`;
+        // console.log("debug : demande admin pour " + email);
+        db.query(sql, [email], function (err) {
+            if (err) {
+                // console.log(err);
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+    accepterDemandeAdmin: function (email, callback) {
+        sql = `UPDATE UTILISATEUR SET role_utilisateur = 'admin', demande = NULL WHERE email = ?;`;
+        db.query(sql, [email], function (err) {
+            if (err) {
+                // console.log(err);
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+    supprimerDemandeAdmin: function (email, callback) {
+        sql = `UPDATE UTILISATEUR SET demande = NULL WHERE email = ?;`;
+        db.query(sql, [email], function (err) {
+            if (err) {
+                // console.log(err);
+                return callback(err);
+            }
+            return callback(null);
+      });
     }
 }

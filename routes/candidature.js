@@ -57,14 +57,14 @@ router.post('/', (req, res, next) => {
         const destPath = path.join(targetDir, newName);
 
         fs.renameSync(file.filepath, destPath);
-        console.log(`Fichier sauvegardé : ${destPath}`);
+        // console.log(`Fichier sauvegardé : ${destPath}`);
       });
 
       candidature.createCandidature(email, candidatureId, (err) => {
         if (err) {
           return res.status(500).send('Erreur lors de la création de la candidature.');
         }
-        console.log("Candidature créée avec succès !");
+        // console.log("Candidature créée avec succès !");
         res.send('Fichiers envoyés avec succès, et candidature créée !');
       });
     });

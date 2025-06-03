@@ -33,7 +33,7 @@ module.exports = {
             if (err) {
                 return callback(err);
             }
-            console.log("Fiche de poste créée avec succès !");
+            // console.log("Fiche de poste créée avec succès !");
             return callback(null);
         });
     },
@@ -46,7 +46,7 @@ module.exports = {
             if (err) {
                 return callback(err);
             }
-            console.log("Offre créée avec succès !");
+            // console.log("Offre créée avec succès !");
             return callback(null);
         });
     },
@@ -71,43 +71,43 @@ module.exports = {
         const params = [];
 
         if (filters.date) {
-            console.log("date :",filters.date);
+            // console.log("date :",filters.date);
             sql += " AND date_validite <= ?";
             params.push(filters.date);
         }
 
         if (filters.location) {
-            console.log("location :", filters.location);
+            // console.log("location :", filters.location);
             sql += " AND FICHEDEPOSTE.lieu LIKE ?";
             params.push(`%${filters.location.toLowerCase()}%`);
         }
 
         if (filters.intitule) {
-            console.log("intitule :", filters.intitule);
+            // console.log("intitule :", filters.intitule);
             sql += " AND FICHEDEPOSTE.intitule LIKE ?";
             params.push(`%${filters.intitule.toLowerCase()}%`);
         }
 
         if (filters.jobType) {
-            console.log("jobType :",filters.jobType);
+            // console.log("jobType :",filters.jobType);
             sql += " AND FICHEDEPOSTE.typeMetier LIKE ?";
             params.push(`%${filters.jobType.toLowerCase()}%`);
         }
 
         if (filters.company) {
-            console.log("company : ", filters.company);
+            // console.log("company : ", filters.company);
             sql += " AND ORGANISATION.siren = ?";
             params.push(filters.company);
         }
 
         if (filters.salaireMin && !isNaN(filters.salaireMin)) {
-            console.log("salaireMin :", filters.salaireMin);
+            // console.log("salaireMin :", filters.salaireMin);
             sql += " AND FICHEDEPOSTE.salaire >= ?";
             params.push(parseInt(filters.salaireMin));
         }
 
         if (filters.salaireMax && !isNaN(filters.salaireMax) && filters.salaireMax > 0) {
-            console.log("salaireMax :", filters.salaireMax);
+            // console.log("salaireMax :", filters.salaireMax);
             sql += " AND FICHEDEPOSTE.salaire <= ?";
             params.push(parseInt(filters.salaireMax));
         }

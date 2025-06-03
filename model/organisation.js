@@ -19,7 +19,7 @@ module.exports = {
         });
     },
     create: function (siren, nom, type_entreprise, siege_social, etat, callback) {
-        console.log("debug : Création organisation : ");
+        // console.log("debug : Création organisation : ");
         db.query('INSERT INTO ORGANISATION (siren, nom, type_entreprise, siege_social, etat) VALUES (?, ?, ?, ?, ?)', [siren, nom, type_entreprise, siege_social, etat], function (err) {
             if (err) {
                 return callback(err);

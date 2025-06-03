@@ -1,11 +1,8 @@
 
-
-
-
 function verifForm() {  
     
     
-    console.log(password_confirm.value)
+    // console.log(password_confirm.value)
     const TAILLE_PASSW = 12; //debug METTRE 12;
 
 
