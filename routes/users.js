@@ -24,8 +24,7 @@ router.get('/', function (req, res, next) {
     nom : req.session.nom,
     prenom : req.session.prenom,
     role : req.session.role
-    nom: req.session.nom,
-    prenom: req.session.prenom
+    
   }
 
   console.log(req.query)
