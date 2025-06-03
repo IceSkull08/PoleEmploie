@@ -44,13 +44,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 // }));
 
 
-console.log("app.use(session.init())")
+console.log("debug : app.use(session.init())")
 app.use(session.init()) // session.init() retourne un objet session (sera attaché à req)
 
 
 // check user before app.use (path, router)
 app.all("*", function (req, res, next) {
-  console.log("app.all()")
+  console.log("debug : app.all()")
   console.log(req.session)
   const nonSecurePaths = ["/login", "/signup", "/logout","/users/createUser"];
   const adminPaths = ["/admin", "/admins"]; //list des urls admin
@@ -61,7 +61,7 @@ app.all("*", function (req, res, next) {
   }
   //authenticate user
   if (adminPaths.includes(req.path)) {
-    console.log("debug admin path")
+    console.log("debug admin path");
     if (session.isConnected(req.session, "admin")) return next();
     else
       res

@@ -7,6 +7,110 @@
   <link rel="stylesheet" href="css/user.css" />
   <title>User Page</title>
 </head>
+
+<!-- modal demande de création d'organisation -->
+<div class="modal fade" id="ModalCreationOrganisation" tabindex="-1" aria-labelledby="cOrganisationModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cOrganisationModalLabel">Demande de création d'organisation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/users/add-org">
+          <div class="mb-3">
+            <label for="intitule" class="form-label">Siren Organisation</label>
+            <input type="number" class="form-control" id="siren" name="siren" pattern="\d{9,9}" placeholder="123456789" required>
+          </div>
+          <div class="mb-3">
+            <label for="nom" class="form-label">Nom de l'organisation</label>
+            <input type="text" class="form-control" id="nom" name="nom" required>
+          </div>
+          <div class="mb-3">
+            <label for="typeEntreprise" class="form-label">Statut de l'entreprise</label>
+            <input type="text" placeholder="SARL, Eurl, SASU, ..." class="form-control" id="type" name="type" required>
+          </div>
+          <div class="mb-3">
+            <label for="siege" class="form-label">Siege Social</label>
+            <input type="text" class="form-control" id="siege" name="siege" required></input>
+          </div>
+          <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal demande recruteur  -->
+ <div class="modal fade" id="ModalCreationRecruteur" tabindex="-1" aria-labelledby="demandeRecruteurModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="demandeRecruteurModalLabel">Demande de role recruteur</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/users/add-recruteur">
+          <div class="mb-3">
+            <label for="organisationDemandeRecruteur" class="form-label">Nom de l'organisation</label>
+            <select class="form-select" id="organisationDemandeRecruteur" name="organisationDemandeRecruteur" required>
+              <option value="" disabled selected>Choisir l'organisation</option>
+              <% organisations.forEach((orga)=> { %>
+                <option value="<%= orga.siren %>">
+                  <%= orga.nom %>
+                </option>
+                <% }) %>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="sirenDemandeRecruteur" class="form-label">Siren de l'organisation</label>
+            <select class="form-select" id="sirenDemandeRecruteur" name="sirenDemandeRecruteur" required>
+              <option value="" disabled selected>Choisir le siren</option>
+              <% organisations.forEach((orga)=> { %>
+                <option value="<%= orga.siren %>">
+                  <%= orga.siren %>
+                </option>
+                <% }) %>
+            </select>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- modal demande recruteur  -->
+ <div class="modal fade" id="ModalCreationAdmin" tabindex="-1" aria-labelledby="demandeAdminModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="demandeAdminModalLabel">Demande de role Administrateur</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-3">La demande admin supprimera vos droits de recruteur dans le cas ou vous les detenez</p>
+        <p class="mb-3">Les demandes de role administrateur inutiles seront refusées</p>
+        <form method="post" action="/users/add-admin">
+          <div class="mb-3">
+            <input type="checkbox" class="form-check-input" id="confirmAdmin" name="confirmAdmin" required/>
+            <label for="confirmAdmin" class="form-label">Je confirme ma demande de role administrateur</label>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <body class="d-flex flex-column min-vh-100">
 
 <!-- HEADER -->
@@ -17,9 +121,16 @@
       <button class="btn btn-primary" type="submit">Search</button>
     </form>
     <div class="d-flex gap-2 align-items-center">
-      <span> <%=info.nom%> <%=info.prenom%></span>
-      <a href="/logout"><button class="btn btn-primary">Logout</button></a>
-    </div>
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <%=info.nom%> <%=info.prenom%>
+        </button>
+        <ul class="dropdown-menu">
+          
+          <li><a class="dropdown-item" href="#">Mon compte</a></li>
+          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+        </ul>
+      </div>
   </header>
 
 <!-- contenue de la page-->
@@ -28,13 +139,24 @@
 <!-- Nav (filtres)-->
     <nav class="bg-dark text-white p-3 col-sm-4 col-md-3 col-lg-2">
       <div id="roleChoice" class="w-100 d-inline-flex justify-content-center gap-2 pt-2 pb-5">
-        <a href="recruiter" class="btn btn-primary w-50 text-center align-self-start">Recruteur</a>
+        <% if (info.role !== 'recruteur') {  %>
+          <button class="btn btn-primary w-50 text-center align-self-start" id="createRecruteur" data-bs-toggle="modal"
+            data-bs-target="#ModalCreationRecruteur">Recruteur</button>
+        <% } else { %>
+          <a href="recruiter" class="btn btn-primary w-50 text-center align-self-start">Recruteur</a>
+        <% } %>
+        <% if (info.role !== 'admin') {  %>
+          <button class="btn btn-primary w-50 text-center align-self-start" id="createAdmin" data-bs-toggle="modal"
+            data-bs-target="#ModalCreationAdmin">Admin</button>
+        <% } else { %>
         <a href="admins" class="btn btn-primary w-50 text-center align-self-start">Admin</a>
+        <% } %>
       </div>
 
       <div id="filtre" class="d-flex flex-column gap-2 w-100">
         <div id="boutonOrg" class="d-flex gap-2 w-100">
-          <button class="btn btn-primary w-50" id="createOrg">Créer une organisation</button>
+          <button class="btn btn-primary w-50" id="createOrg" data-bs-toggle="modal"
+            data-bs-target="#ModalCreationOrganisation">Créer une organisation</button>
           <a href="organisation" class="btn btn-primary w-50 text-center align-self-start">Liste des organisations</a>
         </div>
         <form id="filtreForm" class="d-flex flex-column gap-2" method="get">
@@ -80,25 +202,6 @@
     <!-- MAIN (proposition de job) -->
     <main class="flex-grow-1 p-3 col-sm-8 col-md-9 col-lg-10">
         <div id="jobList" class="d-flex flex-column gap-2 p-2">
-            <!-- <div id="jobItem1" class="w-100 bg-dark p-2 rounded text-white d-flex flex-column justify-content-between px-4">
-            <div id="jobTitle1" class="d-flex justify-content-between w-100 m-1">
-                <p id="jobCompany1">Company 1</p>
-                <p id="intitule1">Intitulé 1</p>
-                <p id="statutDePoste1">Cadre</p>
-                <p id="location1">Paris</p>
-                <p id="rythme1">Temps plein</p>
-                <p id="salaire1">30k</p>
-            </div>
-            <div id="jobBody1" hidden class="my-2">
-                <p id="desc1" class="col">
-                Description...
-                </p>
-                <div class="row w-100">
-                <p class="col-9 my-2">Candidature possible jusqu'au : <span id="date1">01/01/2022</span></p>
-                <a href="candidature.html" class="btn btn-primary col">Postuler</a>
-                </div>
-            </div>
-            </div> -->
             <% if (offres && Array.isArray(offres)) { %>
                 <% offres.forEach((offre) => { %>
                     <div id="jobItem<%= offre.numero_offre %>" class="w-100 bg-dark p-2 rounded text-white d-flex flex-column justify-content-between px-4">
@@ -170,6 +273,21 @@
     document.getElementById('searchHidden').value = searchValue;
     document.getElementById('filtreForm').submit();
   } 
+
+  // const organisationRecruteur = document.getElementById('organisationDemandeRecruteur');
+  // const sirenRecruteur = document.getElementById('sirenDemandeRecruteur');
+
+  // organisationRecruteur.addEventListener('change', (event) => {
+  //   sirenRecruteur.value = event.target.value;
+  //   console.log("Organisation changed to:", event.target.value);
+  // });
+
+  // sirenRecruteur.addEventListener('change', (event) => {
+  //   organisationRecruteur.value = event.target.value;
+  //   console.log("Siren changed to:", event.target.value);
+  // });
+
   </script>
+  <script src="/javascripts/scriptDemanderecruteur.js"></script>
 </body>
 </html>

@@ -1,18 +1,14 @@
-//db manque date de naissance
-db  localisation pièces jointes
+
 
 comment identifier une demande admin ? (status="demande admin")
 
-bd ajouter organisation 0
-insert into ORGANISATION VALUES (0,'aucune','','');
+
 
 
 admin.ejs  liste utilisateurs = bouton active desactive droits (admin recrut ) supprime utilisateurs
-afficher organisation 
 
-(user creation organisation )
 
-users salaire max  (min ok)
+
 JS verifier password
 
 recruteur
@@ -22,4 +18,13 @@ recruteur
 
 finir test model user
 
+
+
+modifier la bdd pour demande admin + demande recruteur
+
+accepter ou refuser la création d'organisation
+demande admin
+accepter/refuser demande role recruteur
+searchBar recruteur
+searchBar admin
 deplacer hash au niveau serveur

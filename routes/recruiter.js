@@ -20,13 +20,15 @@ router.post('/add-offre', function (req, res, next) {
   const { intitule, piece, nbPiece, dateValidite } = req.body;
   const etat = "publié";
   const recruteurTemp = "marie.lefevre@example.com";
+  const recruteur = req.session.userid;
+  console.log("recruteur", recruteur);
   console.log("intitule", intitule);
   console.log("piece", piece);
   console.log("nbPiece", nbPiece);
   console.log("dateValidite", dateValidite);
   console.log("etat", etat);
   console.log("recruteurTemp", recruteurTemp);
-  poste.createOffre(intitule, etat, dateValidite, piece, nbPiece, recruteurTemp, (err) => {
+  poste.createOffre(intitule, etat, dateValidite, piece, nbPiece, recruteur, (err) => {
     if (err) return next(err);
     res.redirect('/recruiter');
   });
@@ -41,11 +43,11 @@ router.get('/', function (req, res, next) {
   poste.filterCandidature(filters, (err, candidatures) => {
     if (err) return next(err);
     console.log(candidatures);
-    poste.readFicheDePosteOrg('000000000', (err, fiches) => { //req.session.user.siren
-      poste.readAllPoste((err, fiches) => { //req.session.user.siren
+    poste.readFicheDePosteOrg(req.session.org, (err, fiches) => {
+      poste.readAllPoste((err, fiches) => {
         if (err) return next(err);
         // console.log(fiches);
-        poste.readRecruiterOffre('marie.lefevre@example.com', (err, offres) => { //req.session.user.email
+        poste.readRecruiterOffre(req.session.userid, (err, offres) => {
           if (err) return next(err);
           // console.log(offres);
           res.render('recruiter', { offres, fiches, candidatures, filters, info });
