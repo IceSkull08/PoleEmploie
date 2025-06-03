@@ -226,8 +226,28 @@ module.exports = {
         });
     },
     demandeAdmin: function (email, callback) {
-        sql = `UPDATE UTILISATEUR SET demande = 'admin' WHERE email = ?;`;
+        sql = `UPDATE UTILISATEUR SET organisation = NULL, demande = 'admin' WHERE email = ?;`;
         // console.log("debug : demande admin pour " + email);
+        db.query(sql, [email], function (err) {
+            if (err) {
+                // console.log(err);
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+    accepterDemandeAdmin: function (email, callback) {
+        sql = `UPDATE UTILISATEUR SET role_utilisateur = 'admin', demande = NULL WHERE email = ?;`;
+        db.query(sql, [email], function (err) {
+            if (err) {
+                // console.log(err);
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+    supprimerDemandeAdmin: function (email, callback) {
+        sql = `UPDATE UTILISATEUR SET demande = NULL WHERE email = ?;`;
         db.query(sql, [email], function (err) {
             if (err) {
                 // console.log(err);
