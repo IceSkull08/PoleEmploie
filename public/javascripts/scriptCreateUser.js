@@ -1,6 +1,6 @@
 function verifForm(){
     //alert(password.value==password_confirm.value)
-    console.log(password_confirm.value)
+    // console.log(password_confirm.value)
 
     
 

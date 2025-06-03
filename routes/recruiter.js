@@ -21,13 +21,13 @@ router.post('/add-offre', function (req, res, next) {
   const etat = "publié";
   const recruteurTemp = "marie.lefevre@example.com";
   const recruteur = req.session.userid;
-  console.log("recruteur", recruteur);
-  console.log("intitule", intitule);
-  console.log("piece", piece);
-  console.log("nbPiece", nbPiece);
-  console.log("dateValidite", dateValidite);
-  console.log("etat", etat);
-  console.log("recruteurTemp", recruteurTemp);
+  // console.log("recruteur", recruteur);
+  // console.log("intitule", intitule);
+  // console.log("piece", piece);
+  // console.log("nbPiece", nbPiece);
+  // console.log("dateValidite", dateValidite);
+  // console.log("etat", etat);
+  // console.log("recruteurTemp", recruteurTemp);
   poste.createOffre(intitule, etat, dateValidite, piece, nbPiece, recruteur, (err) => {
     if (err) return next(err);
     res.redirect('/recruiter');
@@ -42,7 +42,7 @@ router.get('/', function (req, res, next) {
   const filters = req.query.offre?.trim();
   poste.filterCandidature(filters, (err, candidatures) => {
     if (err) return next(err);
-    console.log(candidatures);
+    // console.log(candidatures);
     poste.readFicheDePosteOrg(req.session.org, (err, fiches) => {
       poste.readAllPoste((err, fiches) => {
         if (err) return next(err);

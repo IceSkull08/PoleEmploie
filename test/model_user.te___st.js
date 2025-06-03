@@ -5,7 +5,7 @@ describe("Model Tests", () => {
 
 
     beforeAll(() => {
-        console.log("model.user.test()");
+        // console.log("model.user.test()");
         // des instructions à exécuter avant le lancement de cette suite de tests
     });
 

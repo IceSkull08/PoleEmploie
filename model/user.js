@@ -186,7 +186,7 @@ module.exports = {
             function (err, results) {
                 if (err) {
                     // throw err;
-                    console.log(err)
+                    // console.log(err)
                     callback(false)
                 }
                 else 
@@ -199,7 +199,7 @@ module.exports = {
         sql = `UPDATE UTILISATEUR SET demande = 'recruteur', organisation = ? WHERE email = ?;`;
         db.query(sql, [siren, email], function (err) {
             if (err) {
-                console.log(err);
+                // console.log(err);
                 return callback(err);
             }
             return callback(null);
@@ -209,7 +209,7 @@ module.exports = {
         sql = `UPDATE UTILISATEUR SET demande = NULL, organisation = NULL WHERE email = ?;`;
         db.query(sql, [email], function (err) {
             if (err) {
-                console.log(err);
+                // console.log(err);
                 return callback(err);
             }
             return callback(null);
@@ -219,7 +219,18 @@ module.exports = {
         sql = `UPDATE UTILISATEUR SET role_utilisateur = 'recruteur', demande = NULL WHERE email = ?;`;
         db.query(sql, [email], function (err) {
             if (err) {
-                console.log(err);
+                // console.log(err);
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+    demandeAdmin: function (email, callback) {
+        sql = `UPDATE UTILISATEUR SET demande = 'admin' WHERE email = ?;`;
+        // console.log("debug : demande admin pour " + email);
+        db.query(sql, [email], function (err) {
+            if (err) {
+                // console.log(err);
                 return callback(err);
             }
             return callback(null);

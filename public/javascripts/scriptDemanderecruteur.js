@@ -3,10 +3,10 @@ const organisationRecruteur = document.getElementById('organisationDemandeRecrut
 
   organisationRecruteur.addEventListener('change', (event) => {
     sirenRecruteur.value = event.target.value;
-    console.log("Organisation changed to:", event.target.value);
+    // console.log("Organisation changed to:", event.target.value);
   });
 
   sirenRecruteur.addEventListener('change', (event) => {
     organisationRecruteur.value = event.target.value;
-    console.log("Siren changed to:", event.target.value);
+    // console.log("Siren changed to:", event.target.value);
   });

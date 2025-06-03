@@ -6,7 +6,7 @@ module.exports = {
             if (err) {
                 return callback(err);
             }
-            console.log("Candidature créée avec succès !");
+            // console.log("Candidature créée avec succès !");
             return callback(null);
         });
     }
