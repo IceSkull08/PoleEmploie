@@ -2,7 +2,11 @@ var express = require('express');
 var router = express.Router();
 const poste = require('../model/poste.js');
 const organisation = require('../model/organisation.js');
-const userModel = require('../model/user.js')
+const userModel = require('../model/user.js');
+
+// const hachageJS = require("../public/javascripts/md5.js") //TODO : deplacer en privé
+
+// const hachageJS = require("./TestMd5.js"); //TODO : deplacer en privé //deplacé dans model user
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -21,6 +25,7 @@ router.get('/', function(req, res, next) {
     nom : req.session.nom,
     prenom : req.session.prenom,
     role : req.session.role
+    
   }
   // console.log(req.query)
   // console.log("date :",filters.date),
@@ -33,14 +38,14 @@ router.get('/', function(req, res, next) {
 
 
   poste.filter(filters, (err, offres) => {
-    if(err) return next(err);
+    if (err) return next(err);
     // console.log(offres);
     organisation.readall((errOrg, organisations) => {
-      if(errOrg) return next(errOrg);
+      if (errOrg) return next(errOrg);
       // console.log(organisations);
-      res.render('user', { offres, filters, organisations,info });
+      res.render('user', { offres, filters, organisations, info });
     });
-});
+  });
 });
 
 
@@ -77,21 +82,31 @@ router.post('/createUser', function (req, res, next) {
   const password = req.body.password;
   const tel = req.body.tel;
 
-  // console.log("création de "+nom);
-  // (email, password, nom, prenom, tel, date_creation, statut_compte, role_utilisateur, callback) {
-  // result = userModel.createUser(nom, prenom, email, tel, password, function (result) {
-    result = userModel.createUser(email, password, nom, prenom, tel, function (result) {
-    // console.log(result)
-    if (result) {
-      // console.log("création  utilisateur " + nom + "ok")
-      res.send("user " + nom + " crée");
-    }
-    else {
-      // console.log("erreur création  utilisateur " + nom);
-      return;
-    }
+  // console.log("createuser")
+  // console.log(hachageJS)
+  // hashPassword = hachageJS(password);//deplacé dans model user
+  // console.log("création de "+nom+" pass="+password," hach="+hashPassword);
 
-  });
+
+  // createUser: function (email, nom, prenom, tel, mdp,  callback) {
+  try {
+    result = userModel.createUser(email, nom, prenom, tel, password, function (result) {
+      console.log('(routes/users.js) result=', result)
+      if (result) {
+        console.log("(routes/users.js) création  utilisateur " + nom + "ok")
+        res.send("user " + nom + " crée");
+      }
+      else {
+        console.log("(routes/users.js) erreur création  utilisateur " + nom);
+        res.send("erreur création utilisateur (déjà existant)");
+        // return;
+      }
+    });
+  } catch (e) { //ne fonctionne pas : erreur traitée dans db.query
+    console.log('catch erreur ', e)
+    res.send("erreur, utilisateur déjà existant")
+    // return
+  }
 });
 
 router.post('/add-org', function (req, res, next) {

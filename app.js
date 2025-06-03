@@ -69,54 +69,21 @@ app.all("*", function (req, res, next) {
   }else if (recruterPaths.includes(req.path)) {
     // console.log("debug recruter path");
     if (session.isConnected(req.session, "recruteur")) return next();
-    else
-      res
-        .status(403)
-        .render("error", { message: " Unauthorized access", error: {} });
-  } else {
+    else  res.status(403).render("error", { message: " Unauthorized access", error: {} });
+
+  }
+  else {
     if (session.isConnected(req.session)) return next();
     // not authenticated
     else res.redirect("/login");
   }
 });
 
-// deplacé dans routes/login.js
-// app.post('/login', (req, res) => {
-//   console.log("app.post() todo // Vérification des informations d'identification de l'utilisateur")
-//   console.log(req.body)
-//   // if (req.body.username === 'user' && req.body.password === pwd) {
-
-//   if (true) {
-//     // Création d'une session utilisateur
-//     session.creatSession(req.session,req.body.email,'user')
-
-//     console.log(req.session) //BUG req.session non def 
-//     // req.session.user = req.body.username;
-
-
-//     // Ajouter le rôle aussi dans la session
-//     // req.session.role = 'user';
-//     res.send(req.body.email+' (user) :Authentification réussie !');
-//   } else {
-//     res.send('Nom d\'utilisateur ou mot de passe incorrect.');
-//   }
-// });
-
-
-
 
 
 
 app.use('/', indexRouter);
 
-// app.get('/', (req, res) => {
-//   session = req.session;
-//   console.log("session.userid =" + session.userid)
-//   if (session.userid) {
-//     res.send("Welcome User <a href=\'/logout'>click to logout</a>");
-//   } else
-//     res.redirect("/login");
-// });
 
 app.get('/profil', (req, res) => {
   // console.log("TODO router profil")
@@ -127,11 +94,11 @@ app.get('/profil', (req, res) => {
   }
 });
 
-app.get('/logout',(req,res) => {
+app.get('/logout', (req, res) => {
   req.session.destroy();
   // console.log("session detruite",session);
   res.redirect('/login');
-  });
+});
 
 app.use('/users', usersRouter);
 app.use('/admins', adminsRouter);

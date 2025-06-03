@@ -1,4 +1,64 @@
 var db = require('./db.js');
+const bcrypt = require('bcrypt');
+
+
+
+function createUserSimple(email, nom, prenom, tel, mdp, callback) {
+    // = sans hachage password => utiliser createUser
+
+
+    let date_creation = new Date(Date.now());
+
+    let role_utilisateur = "utilisateur";
+    let statut_compte = "actif"; //doit être validé (=actif) par admin TODO:mettre demande_ser ou demande_admin
+
+    console.log("debug model/user.js createUserSimple(): hash_mdp=", mdp)
+
+
+    sql = `INSERT INTO UTILISATEUR ( 
+    email , 
+    mdp ,  
+    nom , 
+    prenom ,
+    tel ,
+    date_creation ,
+    statut_compte ,
+    
+    role_utilisateur 
+    ) 
+    VALUES ( ?,?,?,?,?,?,?,?);`
+
+
+
+    db.query(sql, [
+        email,
+        mdp,
+        nom,
+        prenom,
+        tel,
+        date_creation,
+        statut_compte,
+        role_utilisateur
+
+    ],
+        function (err, results) {
+            if (err) {
+
+                console.log('(model/user.js) createUser() 1erreur', err)
+
+                callback(false)
+                // throw err;
+                // throw new Error("pb");// ne fonctionne pas, recapturé ici
+
+            }
+            else
+                callback(true);
+        }
+    );
+};
+
+
+
 
 module.exports = {
     read: function (email, callback) {
@@ -21,6 +81,53 @@ module.exports = {
         });
     },
     areValide: function (email, password, callback) {
+        console.log("debug areValide: verif pass=",password);
+            
+            db.query('SELECT * FROM UTILISATEUR WHERE email = ? ', [email], function (err, results) {
+                if (err) {
+                    return callback(err);
+                }
+                if (results.length === 0) {
+                    return callback(true, null);
+        
+                }
+                console.log("result=",results);
+                passHash = results[0]["mdp"];
+                console.log("passHaché=",passHash);
+                bcrypt.compare(password,passHash).then((isOk)=>{
+                    console.log("authentification ok (fonctionne aussi avec pass en clair !!!");
+                    results[0]["mdp"]='masqué';
+                    return callback(false, results);    
+                }).catch(err=> {
+                    console.log(err);
+                    return callback(err);
+                });
+                
+        
+            })
+ 
+    },
+
+    NONareValide: function (email, password, callback) {
+        const saltRounds = 5;
+        bcrypt.hash(password, saltRounds).then((res) => {
+            hashMdp = res;
+            console.log("debug: verif hash=",hashMdp);
+            db.query('SELECT * FROM UTILISATEUR WHERE email = ? AND mdp = ?', [email, hashMdp], function (err, results) {
+                if (err) {
+                    return callback(err);
+                }
+                if (results.length === 0) {
+                    return callback(true, null);
+                }
+                return callback(false, results);
+                // return callback(null, true);
+            })
+        }).catch((err)=>{console.log("areValide() catch err :",err)});
+    },
+
+    areValideSimplePassword: function (email, password, callback) {
+        // pass non haché
         db.query('SELECT * FROM UTILISATEUR WHERE email = ? AND mdp = ?', [email, password], function (err, results) {
             if (err) {
                 return callback(err);
@@ -28,11 +135,13 @@ module.exports = {
             if (results.length === 0) {
                 return callback(true, null);
             }
-            return callback(false,results);
+            return callback(false, results);
             // return callback(null, true);
         });
     },
-    create: function (email, password, nom, prenom, tel, date_creation, statut_compte, role_utilisateur, callback) {
+
+    OLD_create: function (email, password, nom, prenom, tel, date_creation, statut_compte, role_utilisateur, callback) {
+        //ATTENTION !!!!!!!!!! OBSOLETTE : UTILISER CREATEUSER !!!!!
         db.query('INSERT INTO UTILISATEUR (email, mdp, nom, prenom, tel, date_creation, statut_compte, role_utilisateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [email, password, nom, prenom, tel, date_creation, statut_compte, role_utilisateur], function (err) {
             if (err) {
                 return callback(err);
@@ -41,6 +150,7 @@ module.exports = {
         });
     },
     modifiedMdp: function (email, password, callback) {
+        console.log("debug modifiedMdp TODO: hash pass"); //TODO : hash pass
         db.query('UPDATE UTILISATEUR SET mdp = ? WHERE email = ?', [password, email], function (err) {
             if (err) {
                 return callback(err);
@@ -114,26 +224,26 @@ module.exports = {
     },
 
     filterRead: function (filters, callback) {
-        if (filters.element){
-            if (filters.element === 'all'){
+        if (filters.element) {
+            if (filters.element === 'all') {
                 this.readall((err, users) => {
                     if (err) return callback(err);
                     return callback(null, users);
                 });
             }
-            else if (filters.element === 'admin'){
+            else if (filters.element === 'admin') {
                 this.readadmin((err, users) => {
                     if (err) return callback(err);
                     return callback(null, users);
                 });
             }
-            else if (filters.element === 'users'){
+            else if (filters.element === 'users') {
                 this.readutilisateur((err, users) => {
                     if (err) return callback(err);
                     return callback(null, users);
                 });
             }
-            else if (filters.element === 'recruiter'){
+            else if (filters.element === 'recruiter') {
                 this.readrecruteur((err, users) => {
                     if (err) return callback(err);
                     return callback(null, users);
@@ -147,54 +257,17 @@ module.exports = {
             // }
         }
     },
-    createUser: function (email, nom, prenom, tel, mdp,  callback) {
-        // sql = "CREATE TABLE UTILISATEUR ( email varchar(50) NOT NULL, mdp varchar(255) NOT NULL,  nom varchar(20) NOT NULL, prenom varchar(20) NOT NULL,   tel varchar(20) NOT NULL,            date_creation date NOT NULL,   statut_compte enum('actif', 'inactif') NOT NULL, organisation int(11) DEFAULT NULL, role_utilisateur enum('utilisateur', 'recruteur', 'admin') NOT NULL);";
 
-        // let date_creation = new Date(Date.now()).toUTCString();
-        let date_creation = new Date(Date.now());
-        
-        let role_utilisateur = "utilisateur";
-        let statut_compte = "actif"; //doit être validé (=actif) par admin TODO:mettre demande_ser ou demande_admin
-
-
-        sql = `INSERT INTO UTILISATEUR ( 
-        email , 
-        mdp ,  
-        nom , 
-        prenom ,
-        tel ,
-        date_creation ,
-        statut_compte ,
-        
-        role_utilisateur 
-        ) 
-        VALUES ( ?,?,?,?,?,?,?,?);`
-
-        
-
-        db.query(sql, [
-            email,
-            mdp,
-            nom,
-            prenom,
-            tel,
-            date_creation,
-            statut_compte,
-            role_utilisateur
-
-        ],
-            function (err, results) {
-                if (err) {
-                    // throw err;
-                    // console.log(err)
-                    callback(false)
-                }
-                else 
-                    callback(true);
-            }
-        );
-    }, 
-    
+    createUser: function (email, nom, prenom, tel, mdp, callback) {
+        const saltRounds = 5;
+        bcrypt.hash(mdp, saltRounds).then((res) => {
+            hashMdp = res;
+            createUserSimple(email, nom, prenom, tel, hashMdp, callback);
+        }).catch((err) => {
+            console.log(err);
+        });
+    },
+  
     demandeRecruteur: function (email, siren, callback) {
         sql = `UPDATE UTILISATEUR SET demande = 'recruteur', organisation = ? WHERE email = ?;`;
         db.query(sql, [siren, email], function (err) {
@@ -254,6 +327,6 @@ module.exports = {
                 return callback(err);
             }
             return callback(null);
-        });
+      });
     }
 }
