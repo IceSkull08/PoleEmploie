@@ -15,3 +15,9 @@ const userItems = document.querySelectorAll('[id^="userItem"]');
         });
       }
     });
+
+function submitWithSearch() {
+    const searchValue = document.getElementById('mainSearch').value;
+    document.getElementById('searchHidden').value = searchValue;
+    document.getElementById('filtreForm').submit();
+  } 

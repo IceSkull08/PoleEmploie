@@ -70,14 +70,15 @@ app.all("*", function (req, res, next) {
   if (adminPaths.includes(req.path)) {
     // console.log("debug admin path");
     if (session.isConnected(req.session, "admin")) return next();
-    else
-      res
-        .status(403)
-        .render("error", { message: " Unauthorized access", error: {} });
+    else res.redirect("/login");
+      // res
+      //   .status(403)
+      //   .render("error", { message: " Unauthorized access", error: {} });
   }else if (recruterPaths.includes(req.path)) {
     // console.log("debug recruter path");
     if (session.isConnected(req.session, "recruteur")) return next();
-    else  res.status(403).render("error", { message: " Unauthorized access", error: {} });
+    // else  res.status(403).render("error", { message: " Unauthorized access", error: {} });
+    else res.redirect("/login");
 
   }
   else {

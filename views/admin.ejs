@@ -11,8 +11,8 @@
     <!-- HEADER -->
             <header class="d-flex justify-content-between bg-danger text-white px-5 p-2 align-items-center">
                     <img src="img/logoTempo.png" id="logoSite" alt="logo">
-                    <form id="searchbar" class="d-flex gap-2 align-items-center w-50">
-                        <input type="text" placeholder="Search..." name="search" class="w-100">
+                    <form id="searchbar" class="d-flex gap-2 align-items-center w-50" onsubmit="event.preventDefault(); submitWithSearch();">
+                        <input type="text" placeholder="Search..." name="search" class="form-control" id="mainSearch" />
                         <button class="btn btn-primary" type="submit">Search</button>
                     </form>
                     <div class="d-flex gap-2 align-items-center">
@@ -37,7 +37,7 @@
             <a href="users" class="btn btn-primary w-100 text-center align-self-start">Utilisateur</a>
         </div>
         <div id="filtre" class="d-flex flex-column gap-2 w-100">
-            <form id="filtreForm" class="d-flex flex-column gap-2" method="post" >
+            <form id="filtreForm" class="d-flex flex-column gap-2" method="post" action="/admins/filter">
                 <label for="filterType">Element à lister</label>
                 <select name="filterType" id="filterType">
                     <option value="all" <%= filters.element === 'all' ? 'selected' : '' %>>Tous les comptes</option>
@@ -47,7 +47,7 @@
                     <option value="recruiterDemand" <%= filters.element === 'recruiterDemand' ? 'selected' : '' %>>Recruiter demand</option>
                     <option value="adminDemand" <%= filters.element === 'adminDemand' ? 'selected' : '' %>>Admin demand</option>
                 </select>
-                
+                <input type="hidden" name="search" id="searchHidden" value="" />
                 <button class="btn btn-primary" type="submit">Search</button>
             </form>
         </div>

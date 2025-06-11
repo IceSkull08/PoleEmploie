@@ -1,3 +1,4 @@
+const e = require('express');
 var db = require('./db.js');
 const bcrypt = require('bcrypt');
 
@@ -176,8 +177,8 @@ module.exports = {
     },
     modifiedOrganisation: function (email, organisation, callback) {
         db.query('UPDATE UTILISATEUR SET organisation = ? WHERE email = ?', [organisation, email], function (err) {
-            console.log("\n\ndebug model/user.js modifiedOrganisation() organisation=",organisation);
-            console.log("debug model/user.js modifiedOrganisation() email=",email);
+            // console.log("\n\ndebug model/user.js modifiedOrganisation() organisation=",organisation);
+            // console.log("debug model/user.js modifiedOrganisation() email=",email);
             if (err) {
                 return callback(err);
             }
@@ -186,7 +187,7 @@ module.exports = {
     },
     modifiedRole: function (email, role_utilisateur, callback) {
         db.query('UPDATE UTILISATEUR SET role_utilisateur = ? WHERE email = ?', [role_utilisateur, email], function (err) {
-            console.log("\n\ndebug model/user.js modifiedRole() role_utilisateur=",role_utilisateur);
+            // console.log("\n\ndebug model/user.js modifiedRole() role_utilisateur=",role_utilisateur);
             if (err) {
                 return callback(err);
             }
@@ -227,10 +228,25 @@ module.exports = {
     },
 
     filterRead: function (filters, callback) {
+        console.log("debug model/user.js filterRead() filters.element=",filters.element);
         if (filters.element) {
-            if (filters.element === 'all') {
+            if (filters.search) {
+                db.query(`SELECT * FROM UTILISATEUR WHERE email LIKE ? OR nom LIKE ? OR prenom LIKE ?`, 
+                [
+                    `%${filters.search.toLowerCase()}%`,
+                    `%${filters.search.toLowerCase()}%`,
+                    `%${filters.search.toLowerCase()}%`
+                ], function (err, results) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    return callback(null, results);
+                });
+            }
+            else if (filters.element === 'all') {
                 this.readall((err, users) => {
                     if (err) return callback(err);
+                    // console.log("debug model/user.js filterRead() all users=",users);
                     return callback(null, users);
                 });
             }
@@ -252,12 +268,25 @@ module.exports = {
                     return callback(null, users);
                 });
             }
-            // else if (filters.element === 'recruiterDemand'){
-            //     this.readrecruteur((err, users) => {
-            //         if (err) return callback(err);
-            //         return callback(null, users);
-            //     });
-            // }
+            else if (filters.element === 'recruiterDemand') {
+                // console.log("debug model/user.js filterRead() recruiterDemandes");
+                db.query('SELECT * FROM UTILISATEUR WHERE demande = "recruteur"', [], function (err, results) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    return callback(null, results);
+                });
+            }
+            else if (filters.element === 'adminDemand') {
+                // console.log("debug model/user.js filterRead() adminDemandes");
+                db.query('SELECT * FROM UTILISATEUR WHERE demande = "admin"', [], function (err, results) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    return callback(null, results);
+                });
+            }
+            
         }
     },
 
