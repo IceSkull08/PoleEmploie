@@ -4,8 +4,14 @@ comment identifier une demande admin ? (status="demande admin")
 
 
 
+TEST BUG lors refus demande admin il faut retirer la demande de la DB
+TEST un admin qui demande recruteur lors refus/accept il faut retirer la demande de la DB
+//OK  TEST connexion recruteur : enlever BT recruteur
+TEST creation organisation existante => erreur sql duplicate entry : catch+afficher msg
+
 
 admin.ejs  liste utilisateurs = bouton active desactive droits (admin recrut ) supprime utilisateurs
+
 
 
 
