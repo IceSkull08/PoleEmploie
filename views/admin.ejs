@@ -100,9 +100,9 @@
 
                         <div id="demandeRecruteur<% user.email.replace(/[@.]/g, '_') %>" class="col-6 row justify-content-between ">
                             <form method='post' action='/admins/updateRecruiter'>
+                                <input type='hidden' name='email' value='<%= user.email %>'>
                             <% if (user.demande == 'recruteur') { %>
                                 <p>l'utilisteur a fait une demande pour rejoindre en tant que recruteur l'organisation : <%= user.organisation %></p>
-                                <input type='hidden' name='email' value='<%= user.email %>'>
                                 <button class='btn btn-success' type='submit' value='ok' name='accepter'>Accepter</button>
                                 <button class='btn btn-danger' type='submit' value='refuse' name='refuser'>Refuser</button>
                             <% } else if (user.role_utilisateur == 'recruteur') { %>

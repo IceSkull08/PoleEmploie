@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
         prenom : req.session.prenom
       }
    
-    // console.log("routes/admin element :",filters, " info",info);
+    console.log("routes/admin element :",filters, " info",info);
     
     user.filterRead(filters, (err, liste) => {
         if(err) return next(err);
@@ -74,10 +74,12 @@ router.post("/updateRecruiter", (req, res, next) => {
         });
     } else if (req.body.retirer == "remove") {
         // console.log("debug : routes/admins.js : POST /updateRecruiter retirer");
+        console.log("\n\ndebug : routes/admins.js : POST /updateRecruiter retirer\n\n");
+        console.log("\ndebug : routes/admins.js : POST /updateRecruiter retirer email", req.body.email);
         user.modifiedRole(req.body.email, "utilisateur", (err, result) => {
-            user.modifiedOrganisation(req.body.email, "NULL", (err, result) => {
-            if (err) return next(err);
-            res.redirect('/admins');
+            user.modifiedOrganisation(req.body.email, null, (err, result) => {
+                if (err) return next(err);
+                res.redirect('/admins');
         });
     });
     }

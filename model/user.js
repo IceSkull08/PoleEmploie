@@ -176,6 +176,8 @@ module.exports = {
     },
     modifiedOrganisation: function (email, organisation, callback) {
         db.query('UPDATE UTILISATEUR SET organisation = ? WHERE email = ?', [organisation, email], function (err) {
+            console.log("\n\ndebug model/user.js modifiedOrganisation() organisation=",organisation);
+            console.log("debug model/user.js modifiedOrganisation() email=",email);
             if (err) {
                 return callback(err);
             }
@@ -184,6 +186,7 @@ module.exports = {
     },
     modifiedRole: function (email, role_utilisateur, callback) {
         db.query('UPDATE UTILISATEUR SET role_utilisateur = ? WHERE email = ?', [role_utilisateur, email], function (err) {
+            console.log("\n\ndebug model/user.js modifiedRole() role_utilisateur=",role_utilisateur);
             if (err) {
                 return callback(err);
             }
