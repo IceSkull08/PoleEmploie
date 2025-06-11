@@ -60,7 +60,7 @@ app.all("*", function (req, res, next) {
     return next();
   }
   
-  const nonSecurePaths = ["/login", "/signup","/logout"];
+  const nonSecurePaths = ["/login", "/signup","/logout","/users/createUser"];
   const adminPaths = ["/admin","/admins"]; //list des urls admin
   const recruterPaths = ["/recruiter"]; //list des urls recruteur
   if (nonSecurePaths.includes(req.path)) {
