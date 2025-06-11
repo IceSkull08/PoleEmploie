@@ -5,6 +5,26 @@ const archiver = require('archiver');
 const fs = require('fs');
 const path = require('path');
 
+router.get('/', function (req, res, next) {
+  const info = {
+    nom : req.session.nom,
+    prenom : req.session.prenom
+  }
+  const filters = req.query.offre?.trim();
+  poste.filterCandidature(filters, req.session.org, (err, candidatures) => {
+    if (err) return next(err);
+    // console.log(candidatures);
+    poste.readFicheDePosteOrg(req.session.org, (err, fiches) => {
+        if (err) return next(err);
+        // console.log(fiches);
+        poste.readRecruiterOffre(req.session.userid, (err, offres) => {
+          if (err) return next(err);
+          // console.log(offres);
+          res.render('recruiter', { offres, fiches, candidatures, filters, info });
+        });
+    });    
+  });
+});
 
 
 router.post('/add-fdp', function (req, res, next) {
@@ -34,26 +54,21 @@ router.post('/add-offre', function (req, res, next) {
   });
 });
 
-router.get('/', function (req, res, next) {
-  const info = {
-    nom : req.session.nom,
-    prenom : req.session.prenom
-  }
-  const filters = req.query.offre?.trim();
-  poste.filterCandidature(filters, (err, candidatures) => {
+router.post('/delete-fdp', function (req, res, next) {
+  const numeroFiche = req.body.numero_fiche;
+  poste.deleteFicheDePoste(numeroFiche, (err) => {
+    console.log("debug deleteFdp");
     if (err) return next(err);
-    // console.log(candidatures);
-    poste.readFicheDePosteOrg(req.session.org, (err, fiches) => {
-      poste.readAllPoste((err, fiches) => {
-        if (err) return next(err);
-        // console.log(fiches);
-        poste.readRecruiterOffre(req.session.userid, (err, offres) => {
-          if (err) return next(err);
-          // console.log(offres);
-          res.render('recruiter', { offres, fiches, candidatures, filters, info });
-        });
-      });
-    });    
+    res.redirect('/recruiter');
+  });
+});
+
+router.post('/delete-offre', function (req, res, next) {
+  console.log("debug deleteOffre id : ", req.body.numero_offre);
+  const id = req.body.numero_offre;
+  poste.deleteOffre(id, (err) => {
+    if (err) return next(err);
+    res.redirect('/recruiter');
   });
 });
 

@@ -8,8 +8,9 @@
   <link rel="stylesheet" href="css/user.css">
   <title>Recruiter Page</title>
 </head>
+
 <!-- modal creation fiche de poste-->
-<!-- pour le siren de l'ogrnaisation il faut recuperer l'organisation du créateur de la fiche de poste -->
+<!-- pour le siren de l'organisation il faut recuperer l'organisation du créateur de la fiche de poste -->
 <div class="modal fade" id="ModalCreationFicheDePoste" tabindex="-1" aria-labelledby="cfdpModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -53,7 +54,7 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="description" class="form-label">Déscription</label>
+            <label for="description" class="form-label">Description</label>
             <textarea class="form-control" id="description" name="description" rows="5"></textarea>
           </div>
           <div class="mb-3">
@@ -70,6 +71,7 @@
     </div>
   </div>
 </div>
+
 <!-- modal creation offre-->
 <div class="modal fade" id="ModalCreationOffre" tabindex="-1" aria-labelledby="offreModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -138,8 +140,10 @@
             <p class="col-lg-1 col-md-4 col-sm-4 text-center"><%= fiche.salaire %></p>
             <p class="col-lg-2 col-md-4 col-sm-6 text-center"><%= fiche.lieu %></p>
             <p class="col-lg-2 col-md-4 col-sm-6 text-center"><%= fiche.responsable %></p>
-            <button class="btn btn-primary col-lg-2 col-md-12 col-sm-12 text-center">Supprimer</button>
-            <!-- TODO : ajouter la possibilité de supprimer ? -->
+            <form method="post" action="/recruiter/delete-fdp" class="col-lg-2 col-md-12 col-sm-12 text-center">
+              <input type="hidden" name="numero_fiche" value="<%= fiche.numero_fiche %>">
+              <button type="submit" class="btn btn-primary">Supprimer</button>
+            </form>
           </div>
         <% }) %>
       </div>
@@ -163,7 +167,6 @@
           <p id="pieceDmd" class="col-lg-2 col-md-4 col-sm-6 text-center">Pieces demandées</p>
           <p id="nbPiece" class="col-lg-1 col-md-4 col-sm-6 text-center">Nombre de piece demandées</p>
           <div class="col-lg-2 col-md-4 col-sm-6 "></div>
-          <!-- TODO : ajouter la possibilité de supprimer ? -->
         </div>
           <% offres.forEach((offre) => { %>
             <div class="row w-100 m-1 align-items-center bg-dark text-white p-2 rounded mb-2">
@@ -172,7 +175,10 @@
               <p id="dateFin<%= offre.numero_offre %>" class="col-lg-2 col-md-4 col-sm-6 text-center"><%= new Date(offre.date_validite).toLocaleDateString() %></p>
               <p id="pieceDmd<%= offre.numero_offre %>" class="col-lg-2 col-md-4 col-sm-6 text-center"><%= offre.piece_demande %></p>
               <p id="nbPiece<%= offre.numero_offre %>" class="col-lg-1 col-md-4 col-sm-6 text-center"><%= offre.nombre_piece_demande %></p>
-              <button class="btn btn-primary col-lg-2 col-md-4 col-sm-6 text-center">Supprimer</button>
+              <form method="post" action="/recruiter/delete-offre" class="col-lg-2 col-md-4 col-sm-6 text-center">
+                <input type="hidden" name="numero_offre" value="<%= offre.numero_offre %>">
+                <button type="submit" class="btn btn-primary">Supprimer</button>
+              </form>
               <!-- TODO : ajouter la possibilité de supprimer ? -->
             </div>
         <% }) %>

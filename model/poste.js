@@ -59,6 +59,17 @@ module.exports = {
             return callback(null);
         });
     },
+    //permet de supprimer les fiches de poste en supprimant les offres associées et les candidatures associées
+    deleteFicheDePoste: function (numero_fiche, callback) {
+        console.log("debug deleteFdp numero_fiche", numero_fiche);
+        db.query('DELETE FROM FICHEDEPOSTE WHERE numero_fiche = ?', [numero_fiche], function (err) {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null);
+        });
+    },
+
    //permet de filtrer les offres
    filter: function(filters, callback) {
         let sql = `
@@ -145,10 +156,13 @@ module.exports = {
             return callback(null, results);
         });
     },
-    filterCandidature: function(filters, callback) {
+
+
+    filterCandidature: function(filters, org, callback) {
         if (!filters) {
-            db.query('SELECT CANDIDATURE.numero_candidature, CANDIDATURE.email, CANDIDATURE.numero_offre, UTILISATEUR.nom, UTILISATEUR.prenom, UTILISATEUR.tel, OFFRE.date_validite, FICHEDEPOSTE.intitule FROM CANDIDATURE inner join UTILISATEUR on CANDIDATURE.email = UTILISATEUR.email inner join OFFRE ON CANDIDATURE.numero_offre = OFFRE.numero_offre inner join FICHEDEPOSTE on OFFRE.numero_fiche = FICHEDEPOSTE.numero_fiche', [], function (err, results) {
+            db.query('SELECT CANDIDATURE.numero_candidature, CANDIDATURE.email, CANDIDATURE.numero_offre, UTILISATEUR.nom, UTILISATEUR.prenom, UTILISATEUR.tel, OFFRE.date_validite, FICHEDEPOSTE.intitule, FICHEDEPOSTE.siren_organisation FROM CANDIDATURE inner join UTILISATEUR on CANDIDATURE.email = UTILISATEUR.email inner join OFFRE ON CANDIDATURE.numero_offre = OFFRE.numero_offre inner join FICHEDEPOSTE on OFFRE.numero_fiche = FICHEDEPOSTE.numero_fiche WHERE FICHEDEPOSTE.siren_organisation = ?', [org], function (err, results) {
                 if (err) return callback(err);
+                console.log("debug results", results);
                 return callback(null, results);
             });
         } else {
