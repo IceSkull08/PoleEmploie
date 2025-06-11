@@ -23,9 +23,17 @@ modifier la bdd pour demande admin + demande recruteur
 
 accepter ou refuser la création d'organisation
 
-accepter/refuser demande role recruteur
+
 searchBar recruteur
-searchBar admin
+
 deplacer hash au niveau serveur
 
-FAIRE FILTRE PANNEL ADMIN
+ADMIN : demande organisations
+RECRUTEUR : supprimer les candidatures
+            verifier si suppression offre + fiche de poste fonctionne
+            searchbar 
+
+PAGE PROFIL : lister nos candidature (pouvoir les supprimer)
+            pouvoir modifier nos info de compte ?
+            pour les recruteur : quitter notre role de recruteur
+            
