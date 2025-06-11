@@ -54,6 +54,20 @@ router.get('/createUser', function (req, res, next) {
   res.render('createUser', { title: 'création compte' });
 });
 
+
+router.get('/moncompte', function (req, res, next) {
+  console.log(req.session)
+  console.log(req.session.userid)
+  userModel.read(req.session.userid,function (err,result){
+    delete result.mdp;
+    console.log(result);
+    res.render('compte', { title: '' , result:result});
+  })
+
+  
+});
+
+
 router.post('/login', function (req, res, next) {
   // console.log("debug : router.post('/login'... ");
   const email = String(req.body.email);

@@ -40,3 +40,24 @@ function verifForm() {
 
     return true
 }
+
+
+function swapModif(){
+    // alert('test');
+    const boutton_modif = document.getElementsByClassName('modification1')
+    const boutton_modif2 = document.getElementsByClassName('modification2')
+    Array.from(boutton_modif).forEach(element => {
+        element.style.visibility = "visible"
+        
+        console.log(element)
+    });
+
+    Array.from(boutton_modif2).forEach(element => {
+            element.style.visibility = "hidden"
+            console.log("element2")
+            console.log(element)
+    
+ 
+    });
+ 
+}
