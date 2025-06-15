@@ -61,3 +61,7 @@ function swapModif(){
     });
  
 }
+
+function updateUser(){
+    alert("désolé, la modification de votre compte n'est pas possible pour le moment")
+}

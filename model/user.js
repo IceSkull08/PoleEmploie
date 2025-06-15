@@ -73,6 +73,19 @@ module.exports = {
             return callback(null, results[0]);
         });
     },
+
+    read_user_org(email,callback){
+        db.query('SELECT * FROM UTILISATEUR as uti left join ORGANISATION as org on uti.organisation=org.siren WHERE email=?', [email], function (err, results) {
+            if (err) {
+                return callback(err);
+            }
+            if (results.length === 0) {
+                return callback(null, null);
+            }
+            return callback(null, results[0]);
+        });            
+    },
+
     readall: function (callback) {
         db.query('SELECT * FROM UTILISATEUR', [], function (err, results) {
             if (err) {

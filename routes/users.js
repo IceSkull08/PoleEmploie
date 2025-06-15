@@ -58,8 +58,9 @@ router.get('/createUser', function (req, res, next) {
 router.get('/moncompte', function (req, res, next) {
   console.log(req.session)
   console.log(req.session.userid)
-  userModel.read(req.session.userid,function (err,result){
-    delete result.mdp;
+  // userModel.read(req.session.userid,function (err,result){
+    userModel.read_user_org(req.session.userid,function (err,result){
+    delete result.mdp; 
     console.log(result);
     res.render('compte', { title: '' , result:result});
   })
