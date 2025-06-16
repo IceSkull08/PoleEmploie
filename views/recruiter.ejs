@@ -224,7 +224,6 @@
     <nav class="bg-dark text-white p-3 col-sm-4 col-md-3 col-lg-2">
       <div id="roleChoice" class="w-100 d-inline-flex justify-content-center gap-2 pt-2 pb-5">
         <a href="users" class="btn btn-primary w-100 text-center align-self-start">Utilisateur</a>
-        <!-- <a href="admins" class="btn btn-primary w-50 text-center align-self-start">Admin</a> -->
       </div>
       <div id="filtre" class="d-flex flex-column gap-2 w-100">
         <div id="boutonCreation" class="d-flex gap-2 w-100">
@@ -265,8 +264,9 @@
           <p  class="col-1">date fin offre</p>
 
 
-          <button class="btn btn-primary col-2 mx-2" disabled>Telecharger</button>
-          <button class="btn btn-primary col-2 mx-2" disabled>Voir l'offre</button>
+          <button class="btn btn-primary col-1 mx-2" disabled>Telecharger</button>
+          <button class="btn btn-primary col-1 mx-2" disabled>Voir l'offre</button>
+          <button class="btn btn-primary col-2 mx-2" disabled>Supprimer</button>
         </div>
       </div>
       <% candidatures.forEach((candidature) => { %>
@@ -279,13 +279,17 @@
             <p class="col-1"><%= candidature.tel %></p>
             <p class="col-1"><%= new Date(candidature.date_validite).toLocaleDateString() %></p>
 
-            <a href="/recruiter/download/<%= candidature.email.replace(/[@.]/g, '_') %>/<%= candidature.numero_offre%>" class="btn btn-primary col-2">Telecharger</a>
-            <a href="/candidature?id=<%= candidature.numero_offre %>" class="btn btn-primary col-2" target="_blank">Voir l'offre</a>
+            <a href="/recruiter/download/<%= candidature.email.replace(/[@.]/g, '_') %>/<%= candidature.numero_offre%>" class="btn btn-primary col-1 mx-2">Telecharger</a>
+            <a href="/candidature?id=<%= candidature.numero_offre %>" class="btn btn-primary col-1 mx-2" target="_blank">Voir l'offre</a>
+            <form method="post" action="/recruiter/delete-candidature" class="col-2 mx-2">
+              <input type="hidden" name="numero_candidature" value="<%= candidature.numero_candidature %>">
+              <input type="hidden" name="numero_offre" value="<%= candidature.numero_offre %>">
+              <input type="hidden" name="email" value="<%= candidature.email %>">
+              <button type="submit" class="btn btn-primary w-100">Supprimer</button>
+            </form>
           </div>
         </div>
       <% }) %>
-      <!-- TODO : ajouter la liste des candidatures a des offres appartenant au recruteur -->
-
       
   </div>
   </div>

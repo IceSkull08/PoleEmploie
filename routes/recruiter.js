@@ -100,5 +100,16 @@ router.get('/download/:email/:id', (req, res, next) => {
   archive.finalize();
 });
 
+router.post('/delete-candidature', (req, res, next) => {
+  console.log("debug deleteCandidature id : ", req.body.numero_offre);
+  const email = req.body.email.replace(/[@.]/g, '_');
+  const numero_offre = req.body.numero_offre;
+  
+  poste.deleteCandidature(req.body.numero_candidature, email, numero_offre, (err) => {
+    if (err) return next(err);
+    res.redirect('/recruiter');
+  });
+});
+
 
 module.exports = router;
