@@ -5,6 +5,51 @@ const archiver = require('archiver');
 const fs = require('fs');
 const path = require('path');
 
+router.get('/', function (req, res, next) {
+  const info = {
+    nom : req.session.nom,
+    prenom : req.session.prenom
+  }
+
+  let searchTerm = '';
+
+  if (req.session.recherche) {
+    searchTerm = req.session.recherche;
+    delete req.session.recherche; // Supprimer la recherche de la session après utilisation
+  };
+
+  const filters = req.query.offre?.trim();
+    // console.log(candidatures);
+    poste.readFicheDePosteOrg(req.session.org, (err, fiches) => {
+        if (err) return next(err);
+        // console.log(fiches);
+        poste.readRecruiterOffre(req.session.userid, (err, offres) => {
+          if (err) return next(err);
+          // console.log(offres);
+          if(searchTerm) {
+            poste.searchCandidatures(searchTerm, req.session.org, (err, candidatures) => {
+              if (err) return next(err);
+              res.render('recruiter', { offres, fiches, candidatures, filters: searchTerm, info });
+            });
+          } else {
+            poste.filterCandidature(filters, req.session.org, (err, candidatures) => {
+            if (err) return next(err);
+            res.render('recruiter', { offres, fiches, candidatures, filters, info });
+            });
+          }
+        });
+    });    
+  });
+
+//route pour la recherche dans la bar de recherche (les données sont stocké dans la session et seront récupérées puis supprimées de la session dans la route GET)
+router.post('/search', function (req, res, next) {
+  const searchTerm = req.body.recherche?.trim().toLowerCase();
+  req.session.recherche = searchTerm; 
+  res.redirect('/recruiter');
+});
+
+
+
 
 
 router.post('/add-fdp', function (req, res, next) {
@@ -34,26 +79,21 @@ router.post('/add-offre', function (req, res, next) {
   });
 });
 
-router.get('/', function (req, res, next) {
-  const info = {
-    nom : req.session.nom,
-    prenom : req.session.prenom
-  }
-  const filters = req.query.offre?.trim();
-  poste.filterCandidature(filters, (err, candidatures) => {
+router.post('/delete-fdp', function (req, res, next) {
+  const numeroFiche = req.body.numero_fiche;
+  poste.deleteFicheDePoste(numeroFiche, (err) => {
+    console.log("debug deleteFdp");
     if (err) return next(err);
-    // console.log(candidatures);
-    poste.readFicheDePosteOrg(req.session.org, (err, fiches) => {
-      poste.readAllPoste((err, fiches) => {
-        if (err) return next(err);
-        // console.log(fiches);
-        poste.readRecruiterOffre(req.session.userid, (err, offres) => {
-          if (err) return next(err);
-          // console.log(offres);
-          res.render('recruiter', { offres, fiches, candidatures, filters, info });
-        });
-      });
-    });    
+    res.redirect('/recruiter');
+  });
+});
+
+router.post('/delete-offre', function (req, res, next) {
+  console.log("debug deleteOffre id : ", req.body.numero_offre);
+  const id = req.body.numero_offre;
+  poste.deleteOffre(id, (err) => {
+    if (err) return next(err);
+    res.redirect('/recruiter');
   });
 });
 
@@ -84,6 +124,19 @@ router.get('/download/:email/:id', (req, res, next) => {
   archive.directory(dossierPath, false);
   archive.finalize();
 });
+
+router.post('/delete-candidature', (req, res, next) => {
+  console.log("debug deleteCandidature id : ", req.body.numero_offre);
+  const email = req.body.email.replace(/[@.]/g, '_');
+  const numero_offre = req.body.numero_offre;
+  
+  poste.deleteCandidature(req.body.numero_candidature, email, numero_offre, (err) => {
+    if (err) return next(err);
+    res.redirect('/recruiter');
+  });
+});
+
+
 
 
 module.exports = router;

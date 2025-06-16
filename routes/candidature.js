@@ -35,7 +35,7 @@ router.post('/', (req, res, next) => {
     form.parse(req, (err, fields, files) => {
       if (err) return next(err);
 
-      const email = fields.email || 'marie.lefevre@example.com';
+      const email = req.session.userid; // l'email de l'utilisateur connecté
       const emailSafe = email.replace(/[@.]/g, '_');
       const candidatureId = id;
 
