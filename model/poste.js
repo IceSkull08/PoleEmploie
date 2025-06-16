@@ -242,6 +242,36 @@ module.exports = {
             resolve();
         });
     });
+    },
+    
+    searchCandidatures: function (term, org, callback) {
+        const likeTerm = `%${term.toLowerCase()}%`;
+
+        const query = `
+            SELECT 
+                CANDIDATURE.numero_candidature, CANDIDATURE.email, CANDIDATURE.numero_offre, 
+                UTILISATEUR.nom, UTILISATEUR.prenom, UTILISATEUR.tel, 
+                OFFRE.date_validite, 
+                FICHEDEPOSTE.intitule, FICHEDEPOSTE.siren_organisation
+            FROM CANDIDATURE
+            INNER JOIN UTILISATEUR ON CANDIDATURE.email = UTILISATEUR.email
+            INNER JOIN OFFRE ON CANDIDATURE.numero_offre = OFFRE.numero_offre
+            INNER JOIN FICHEDEPOSTE ON OFFRE.numero_fiche = FICHEDEPOSTE.numero_fiche
+            WHERE FICHEDEPOSTE.siren_organisation = ?
+            AND (
+                LOWER(UTILISATEUR.nom) LIKE ?
+                OR LOWER(UTILISATEUR.prenom) LIKE ?
+                OR LOWER(CANDIDATURE.email) LIKE ?
+                OR LOWER(FICHEDEPOSTE.intitule) LIKE ?
+            )
+        `;
+
+        const params = [org, likeTerm, likeTerm, likeTerm, likeTerm];
+
+        db.query(query, params, function (err, results) {
+            if (err) return callback(err);
+            return callback(null, results);
+        });
     }
 
 };

@@ -194,9 +194,8 @@
   <!-- HEADER -->
   <header class="d-flex justify-content-between bg-primary text-white px-5 p-2 align-items-center">
     <img src="img/logoTempo.png" id="logoSite" alt="logo" />
-    <form id="searchbar" class="d-flex gap-2 align-items-center w-50"
-      onsubmit="event.preventDefault(); submitWithSearch();">
-      <input type="text" placeholder="Search..." name="search" class="form-control" id="mainSearch" />
+    <form id="searchbar" class="d-flex gap-2 align-items-center w-50" method="post" action="/recruiter/search">
+      <input type="text" placeholder="Rechercher..." name="recherche" class="form-control" id="mainSearch"/>
       <button class="btn btn-primary" type="submit">Search</button>
     </form>
     <div class="d-flex gap-2 align-items-center">

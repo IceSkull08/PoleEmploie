@@ -10,9 +10,15 @@ router.get('/', function (req, res, next) {
     nom : req.session.nom,
     prenom : req.session.prenom
   }
+
+  let searchTerm = '';
+
+  if (req.session.recherche) {
+    searchTerm = req.session.recherche;
+    delete req.session.recherche; // Supprimer la recherche de la session après utilisation
+  };
+
   const filters = req.query.offre?.trim();
-  poste.filterCandidature(filters, req.session.org, (err, candidatures) => {
-    if (err) return next(err);
     // console.log(candidatures);
     poste.readFicheDePosteOrg(req.session.org, (err, fiches) => {
         if (err) return next(err);
@@ -20,11 +26,30 @@ router.get('/', function (req, res, next) {
         poste.readRecruiterOffre(req.session.userid, (err, offres) => {
           if (err) return next(err);
           // console.log(offres);
-          res.render('recruiter', { offres, fiches, candidatures, filters, info });
+          if(searchTerm) {
+            poste.searchCandidatures(searchTerm, req.session.org, (err, candidatures) => {
+              if (err) return next(err);
+              res.render('recruiter', { offres, fiches, candidatures, filters: searchTerm, info });
+            });
+          } else {
+            poste.filterCandidature(filters, req.session.org, (err, candidatures) => {
+            if (err) return next(err);
+            res.render('recruiter', { offres, fiches, candidatures, filters, info });
+            });
+          }
         });
     });    
   });
+
+//route pour la recherche dans la bar de recherche (les données sont stocké dans la session et seront récupérées puis supprimées de la session dans la route GET)
+router.post('/search', function (req, res, next) {
+  const searchTerm = req.body.recherche?.trim().toLowerCase();
+  req.session.recherche = searchTerm; 
+  res.redirect('/recruiter');
 });
+
+
+
 
 
 router.post('/add-fdp', function (req, res, next) {
@@ -110,6 +135,8 @@ router.post('/delete-candidature', (req, res, next) => {
     res.redirect('/recruiter');
   });
 });
+
+
 
 
 module.exports = router;
