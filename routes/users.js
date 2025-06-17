@@ -27,15 +27,6 @@ router.get('/', function(req, res, next) {
     role : req.session.role
     
   }
-  // console.log(req.query)
-  // console.log("date :",filters.date),
-  // console.log("location :", filters.location),
-  // console.log("jobType :",filters.jobType),
-  // console.log("company : ", filters.company),
-  // console.log("salaireMin :", filters.salaireMin),
-  // console.log("salaireMax :", filters.salaireMax);
-  // console.log("info",info);
-
 
   poste.filter(filters, (err, offres) => {
     if (err) return next(err);
@@ -60,10 +51,6 @@ router.get('/moncompte', function (req, res, next) {
   console.log(req.session.userid)
   // userModel.read(req.session.userid,function (err,result){
     userModel.read_user_org(req.session.userid,function (err,result){
-    
-    
-      // delete result.mdp; #TODO :
-
 
     console.log(result);
     res.render('compte', { title: '' , result:result});
@@ -113,12 +100,12 @@ router.post('/createUser', function (req, res, next) {
       console.log('(routes/users.js) result=', result)
       if (result) {
         console.log("(routes/users.js) création  utilisateur " + nom + "ok")
-        res.send("user " + nom + " crée");
+        // res.send("user " + nom + " crée");
+        res.redirect('/users');
       }
       else {
         console.log("(routes/users.js) erreur création  utilisateur " + nom);
         res.send("erreur création utilisateur (déjà existant)");
-        // return;
       }
     });
   } catch (e) { //ne fonctionne pas : erreur traitée dans db.query
