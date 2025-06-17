@@ -10,27 +10,12 @@ TEST un admin qui demande recruteur lors refus/accept il faut retirer la demande
 TEST BUG creation organisation existante => erreur sql duplicate entry : catch+afficher msg
 TODO page admin : ajouter filtre demande creation organisation 
 
-admin.ejs  liste utilisateurs = bouton active desactive droits (admin recrut ) supprime utilisateurs
-
-
-
-
-JS verifier password
-
-recruteur
-    afficher offres ok
-    filtrer offres 
-    voir mes offres
-
 finir test model user
 
-
-modifier la bdd pour demande admin + demande recruteur
 
 accepter ou refuser la création d'organisation
 
 
-searchBar recruteur
 
 deplacer hash au niveau serveur
 

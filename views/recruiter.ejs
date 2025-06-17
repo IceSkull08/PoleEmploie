@@ -34,13 +34,13 @@
               <option value="Stagiaire">Stagiaire</option>
               <option value="Alternant">Alternant</option>
               <option value="Employe">Employe</option>
-              <option value="interimaire">interimaire</option>
-              <option value="vacataire">vacataire</option>
-              <option value="autre">autre</option>
+              <option value="interimaire">Interimaire</option>
+              <option value="vacataire">Vacataire</option>
+              <option value="autre">Autre</option>
             </select>
           </div>
           <div class="mb-3">
-            <label for="responsable" class="form-label">Responsable Hierarchique</label>
+            <label for="responsable" class="form-label">Résponsable Hiérarchique</label>
             <input type="text" class="form-control" id="responsable" name="responsable"></input>
           </div>
           <div class="row mb-3">
@@ -65,7 +65,7 @@
             <label for="typeMetier" class="form-label">Type de metier</label>
             <input type="text" class="form-control" id="typeMetier" name="typeMetier">
           </div>
-          <button type="submit" class="btn btn-primary">Créer l'offre</button>
+          <button type="submit" class="btn btn-primary">Créer la fiche</button>
         </form>
       </div>
     </div>
@@ -94,12 +94,12 @@
             </select>
           </div>
           <div class="mb-3">
-            <label for="piece" class="form-label">Pieces demandées</label>
+            <label for="piece" class="form-label">Pièces demandées</label>
             <input type="text" class="form-control" id="piece" name="piece" placeholder="CV, lettre de motivation ..."
               required></input>
           </div>
           <div class="mb-3">
-            <label for="nbPiece" class="form-label">Nombre de pieces demandées </label>
+            <label for="nbPiece" class="form-label">Nombre de pièces demandées </label>
             <input type="number" class="form-control" id="nbPiece" name="nbPiece" required>
           </div>
           <div class="mb-3">
@@ -164,8 +164,8 @@
           <p id="intitule" class="col-lg-3 col-md-4 col-sm-6 text-center">Intitulé</p>
           <p id="etat" class="col-lg-2 col-md-4 col-sm-6 text-center">Etat</p>
           <p id="dateFin" class="col-lg-2 col-md-4 col-sm-6 text-center">Date de validité</p>
-          <p id="pieceDmd" class="col-lg-2 col-md-4 col-sm-6 text-center">Pieces demandées</p>
-          <p id="nbPiece" class="col-lg-1 col-md-4 col-sm-6 text-center">Nombre de piece demandées</p>
+          <p id="pieceDmd" class="col-lg-2 col-md-4 col-sm-6 text-center">Pièces demandées</p>
+          <p id="nbPiece" class="col-lg-1 col-md-4 col-sm-6 text-center">Nombre de pièce demandées</p>
           <div class="col-lg-2 col-md-4 col-sm-6 "></div>
         </div>
           <% offres.forEach((offre) => { %>
@@ -196,13 +196,9 @@
     <img src="img/logoTempo.png" id="logoSite" alt="logo" />
     <form id="searchbar" class="d-flex gap-2 align-items-center w-50" method="post" action="/recruiter/search">
       <input type="text" placeholder="Rechercher..." name="recherche" class="form-control" id="mainSearch"/>
-      <button class="btn btn-primary" type="submit">Search</button>
+      <button class="btn btn-primary" type="submit">Rechercher</button>
     </form>
     <div class="d-flex gap-2 align-items-center">
-      <!-- <span>username</span> -->
-      <!-- <button class="btn btn-primary">Logout</button> -->
-      <!-- <a href="/"><button class="btn btn-primary">Logout</button></a> -->
-
       <div class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <%=info.nom%> <%=info.prenom%>
@@ -210,7 +206,7 @@
         <ul class="dropdown-menu">
           
           <li><a class="dropdown-item" href="/users/moncompte">Mon compte</a></li>
-          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+          <li><a class="dropdown-item" href="/logout">Deconnexion</a></li>
         </ul>
       </div>
 
@@ -256,14 +252,14 @@
         class="w-100 bg-secondary p-1 rounded text-white d-flex flex-column justify-content-between px-4 mb-2">
         <div id="CandidatureTitle" class="row w-100 m-1 align-items-center gap-2">
           <p class="col-1">intitulé offre</p>
-          <p class="col-2">email Candidat</p>
-          <p  class="col-1">prenom</p>
-          <p  class="col-1">nom</p>
-          <p  class="col-1">tel</p>
-          <p  class="col-1">date fin offre</p>
+          <p class="col-2">Email candidat</p>
+          <p  class="col-1">Prenom</p>
+          <p  class="col-1">Nom</p>
+          <p  class="col-1">Téléphone</p>
+          <p  class="col-1">Date fin offre</p>
 
 
-          <button class="btn btn-primary col-1 mx-2" disabled>Telecharger</button>
+          <button class="btn btn-primary col-1 mx-2" disabled>Télécharger</button>
           <button class="btn btn-primary col-1 mx-2" disabled>Voir l'offre</button>
           <button class="btn btn-primary col-2 mx-2" disabled>Supprimer</button>
         </div>
@@ -278,7 +274,7 @@
             <p class="col-1"><%= candidature.tel %></p>
             <p class="col-1"><%= new Date(candidature.date_validite).toLocaleDateString() %></p>
 
-            <a href="/recruiter/download/<%= candidature.email.replace(/[@.]/g, '_') %>/<%= candidature.numero_offre%>" class="btn btn-primary col-1 mx-2">Telecharger</a>
+            <a href="/recruiter/download/<%= candidature.email.replace(/[@.]/g, '_') %>/<%= candidature.numero_offre%>" class="btn btn-primary col-1 mx-2">Télécharger</a>
             <a href="/candidature?id=<%= candidature.numero_offre %>" class="btn btn-primary col-1 mx-2" target="_blank">Voir l'offre</a>
             <form method="post" action="/recruiter/delete-candidature" class="col-2 mx-2">
               <input type="hidden" name="numero_candidature" value="<%= candidature.numero_candidature %>">

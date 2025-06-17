@@ -30,3 +30,15 @@ https://github.com/IceSkull08/PoleEmploie/commit/d972f8d9523796319ea0eb2e75f41ec
 - TD5 et 6 : dernier commit
 https://github.com/IceSkull08/PoleEmploie/commits/main/
 
+
+les mdp sont hashé coté client puis le hash est hashé coté serveur => probleme résolut afin que ca fonctionne, mais pas la methode adéquat. Je n'avais pas le temps de tout modifier
+
+NON FAIT :
+        => accepter/refuser les demandes de créations d'organisation
+        => possibilité de voir nos candidatures sur la page "mon compte"
+
+AMELIORATION POSSIBLE :
+        => code plus lisible avec plus de test/commentaire
+        => fonction de debug pour rendre les tests plus facile
+        => hashage du mdp a revoir (actuellement coté serveur et coté client => 2 opéartions non utiles)
+        
