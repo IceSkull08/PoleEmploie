@@ -6,14 +6,11 @@
 # connexion
 exemples d'utilisateurs pour tester:
 
-admin@gmail.com  password: admin
-admin@utc.fr    password haché: admin
+admin@gmail.com : admin
 
-util@gmail.com  password: util ou user@...
+recrut@gmail.com : recrut
 
-recrut@gmail.com password: recrut
-recrut@utc.fr  = passe haché recrut
-
+mdp userX@gmail.com : Pa$$word1234
 
 
 # RENDUS
@@ -32,3 +29,4 @@ https://github.com/IceSkull08/PoleEmploie/commit/d972f8d9523796319ea0eb2e75f41ec
 
 - TD5 et 6 : dernier commit
 https://github.com/IceSkull08/PoleEmploie/commits/main/
+

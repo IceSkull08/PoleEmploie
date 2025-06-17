@@ -112,9 +112,14 @@ module.exports = {
                 passHash = results[0]["mdp"];
                 console.log("passHaché=",passHash);
                 bcrypt.compare(password,passHash).then((isOk)=>{
-                    console.log("authentification ok (fonctionne aussi avec pass en clair !!!");
-                    results[0]["mdp"]='masqué';
-                    return callback(false, results);    
+                    if(isOk){
+                        console.log("password ok");
+                        results[0]["mdp"]='masqué';
+                        return callback(false, results);
+                    } else {
+                        console.log("password incorrect");
+                        return callback(true, null);
+                    } 
                 }).catch(err=> {
                     console.log(err);
                     return callback(err);
