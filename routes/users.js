@@ -60,7 +60,11 @@ router.get('/moncompte', function (req, res, next) {
   console.log(req.session.userid)
   // userModel.read(req.session.userid,function (err,result){
     userModel.read_user_org(req.session.userid,function (err,result){
-    delete result.mdp; 
+    
+    
+      // delete result.mdp; #TODO :
+
+
     console.log(result);
     res.render('compte', { title: '' , result:result});
   })

@@ -75,7 +75,10 @@ module.exports = {
     },
 
     read_user_org(email,callback){
-        db.query('SELECT * FROM UTILISATEUR as uti left join ORGANISATION as org on uti.organisation=org.siren WHERE email=?', [email], function (err, results) {
+        // db.query('SELECT * FROM UTILISATEUR as uti left join ORGANISATION as org on uti.organisation=org.siren WHERE email=?', [email], function (err, results) {
+            db.query('SELECT uti.nom ,prenom, email,tel, organisation,role_utilisateur, statut_compte,org.nom as org_nom,siren,type_entreprise, siege_social FROM UTILISATEUR as uti left join ORGANISATION as org on uti.organisation=org.siren WHERE email=?', [email], function (err, results) {
+            console.log("debug read_user_org result=")
+            console.log(results)
             if (err) {
                 return callback(err);
             }
