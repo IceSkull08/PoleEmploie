@@ -53,7 +53,10 @@ router.post('/search', function (req, res, next) {
 
 
 router.post('/add-fdp', function (req, res, next) {
-  const sirenTemp = "000000000";
+  // const sirenTemp = "000000000";
+  console.log(" debug router.post('/add-fdp' "+req.session)
+  console.log(req.session)
+  const sirenTemp = req.session.org;
   const { intitule, statutPoste, responsable, Rythme, salaire, description, lieu, typeMetier } = req.body;
   poste.createFicheDePoste(sirenTemp, intitule, statutPoste, responsable, Rythme, salaire, description, lieu, typeMetier, (err) => {
     if (err) return next(err);
