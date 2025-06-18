@@ -1,3 +1,8 @@
+La dernière version est sur github.
+Le rapport se trouve dans le dossier...rapport.
+
+
+
 # initialisation
 
 - utiliser la base de l'UTC cf /model/db.js OU BIEN créer une base locale :
@@ -10,8 +15,8 @@ admin@gmail.com : admin
 
 recrut@gmail.com : recrut
 
-mdp userX@gmail.com : Pa$$word1234
-
+user1@gmail.com : Pa$$word1234
+user2@gmail.com : Pa$$word1234
 
 # RENDUS
 
@@ -31,11 +36,14 @@ https://github.com/IceSkull08/PoleEmploie/commit/d972f8d9523796319ea0eb2e75f41ec
 https://github.com/IceSkull08/PoleEmploie/commits/main/
 
 
-les mdp sont hashé coté client puis le hash est hashé coté serveur => probleme résolut afin que ca fonctionne, mais pas la methode adéquat. Je n'avais pas le temps de tout modifier
+les mdp sont hashé coté client puis le hash est hashé coté serveur (remarque : les comptes créés avec l'ancienne version ne fonctionnent plus car il faudrait entrer le mot de passe haché pour se loger à cause du double hashage).
+
+ probleme résolut afin que ca fonctionne, mais pas la methode adéquat. Je n'avais pas le temps de tout modifier. La version avec hachage côté serveur seule est moins sécurisée ou alors il faut utiliser https.
 
 NON FAIT :
         => accepter/refuser les demandes de créations d'organisation
         => possibilité de voir nos candidatures sur la page "mon compte"
+        
 
 AMELIORATION POSSIBLE :
         => code plus lisible avec plus de test/commentaire

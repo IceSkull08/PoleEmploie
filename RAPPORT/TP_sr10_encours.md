@@ -125,6 +125,24 @@ Bcrypt fonctionne aussi si les mots de passe ont été préalablement stockés e
 La sécurité joue un rôle majeur dans la création de site web de nos jours. Il y a 40 ans les premiers sites web n'étaient *quasiment* pas protégés car les attaques étaient peu nombreuses : elles se sont développées véritablement à partir des années 1990.
 Les techniques d'attaques sont de plus en plus nombreuses et complexes, un développeur web doit connaître toutes les méthodes pour se protéger, et se former continuellement.
 
+## dernières modifications (version présentée en TD)
+
+
+les mdp sont hashé coté client puis le hash est hashé coté serveur (remarque : les comptes créés avec l'ancienne version ne fonctionnent plus car il faudrait entrer le mot de passe haché pour se loger à cause du double hashage).
+
+ Ça fonctionne, mais pas la methode adéquat. Je n'avais pas le temps de tout modifier. La version avec hachage côté serveur seule est moins sécurisée ou alors il faut utiliser https.
+
+NON FAIT :
+        => accepter/refuser les demandes de créations d'organisation
+        => possibilité de voir nos candidatures sur la page "mon compte"
+        
+
+AMELIORATION POSSIBLE :
+        => code plus lisible avec plus de test/commentaire
+        => fonction de debug pour rendre les tests plus facile
+        => hashage du mdp a revoir (actuellement coté serveur et coté client => 2 opéartions non utiles)
+        
+
 # III. conclusion
 
 Ce projet nous a permis de : 
@@ -140,4 +158,8 @@ qui sont des frameworks très utilisés.
 - coté serveur : gérer la base de données.
 - Choisir entre un modèle "M.V.C" ou bien "single-page application (SPA) avec *Vue.js* 
 
+Pour l'organisation nous nous sommes répartis les taches en fonction de nos préférences tout en essayant de participer tous les deux à la fois à la partie backend et frontend.
+Nous avons choisi d'utiliser GitHub (plus partique) et de coder chacun dans notre branche puis fusionner régulièrement dans la branche main lorsque le code fonctionnait bien.
 
+Au final, le site que nous avons créé a été testé et fonctionne globalement bien, il reste toutefois des petites corrections ou modifications à apporter. Nous les avons identifiées mais nous manquons de temps pour les faire en cette période de révisions pour les examens. 
+En conclusion, ce projet nous a permis de découvrir beaucoup de techniques web (frameworks bootstap, Node.js, express, etc...) et nous a sensibilisé aux problèmes de sécurités. Nous avons également une meilleure idée de la grande quantité de travail à produire pour créer un *petit* site web.
