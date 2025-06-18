@@ -1,3 +1,7 @@
+ancienne version sans hash coté clien
+test création utilisateur ok
+
+
 # initialisation
 
 - utiliser la base de l'UTC cf /model/db.js OU BIEN créer une base locale :
@@ -6,13 +10,13 @@
 # connexion
 exemples d'utilisateurs pour tester:
 
-admin@gmail.com  password: admin
+<!-- admin@gmail.com  password: admin
 admin@utc.fr    password haché: admin
 
 util@gmail.com  password: util ou user@...
 
 recrut@gmail.com password: recrut
-recrut@utc.fr  = passe haché recrut
+recrut@utc.fr  = passe haché recrut -->
 
 
 
